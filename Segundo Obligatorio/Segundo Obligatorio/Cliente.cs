@@ -55,12 +55,12 @@ namespace Segundo_Obligatorio
         //Constructor completo
         public Cliente(int cedula, int tarjeta, string nombre, int telefono, string direccion, string fecha_nac)
         {
-            cedula = this.cedula;
-            tarjeta = this.tarjeta;
-            nombre = this.nombre;
-            telefono = this.telefono;
-            direccion = this.direccion;
-            fecha_nac = this.fecha_nac;
+            this.cedula = cedula;
+            this.tarjeta = tarjeta;
+            this.nombre = nombre;
+            this.telefono = telefono;
+            this.direccion = direccion;
+            this.fecha_nac = fecha_nac;
         }
 
 

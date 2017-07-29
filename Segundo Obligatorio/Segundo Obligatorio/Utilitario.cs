@@ -28,8 +28,8 @@ namespace Segundo_Obligatorio
         public Utilitario(string matricula, string marca, string modelo, int anio, int cant_puertas, double costo_diario, int tipo, double capacidad)
             : base(matricula, marca, modelo, anio, cant_puertas, costo_diario)
         {
-            tipo = this.tipo;
-            capacidad = this.capacidad;
+            this.tipo = tipo;
+            this.capacidad = capacidad;
         }
     }
 }
