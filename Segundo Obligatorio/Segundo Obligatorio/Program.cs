@@ -15,7 +15,7 @@ namespace Segundo_Obligatorio
             {
                 // Llamada al método que muestra el menú principal
                 int opcion = 0;
-                MostrarMenu();
+                Menus.MenuPrincipal();
 
                 //Se pide el número de opción del menú principal
                 bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
@@ -52,29 +52,10 @@ namespace Segundo_Obligatorio
                         ejecutando = false;
                         break;
                     default:
-                        MostrarMenu();
+                        Menus.MenuPrincipal();
                         break;
                 }
             }
-        }
-
-
-        // Método que muestra el menú principal
-        public static void MostrarMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("*********************************************");
-            Console.WriteLine("            Alquiler de vehículos");
-            Console.WriteLine("\n********************************************* \n");
-            Console.WriteLine("   1 - Mantenimiento de Clientes    ");
-            Console.WriteLine("   2 - Mantenimiento de Autos");
-            Console.WriteLine("   3 - Mantenimiento de Utilitarios");
-            Console.WriteLine("   4 - Realizar alquiler");
-            Console.WriteLine("   5 - Listado de vehículos alquilados");
-            Console.WriteLine("   6 - Total recaudado por vehículo");
-            Console.WriteLine("   7 - Salir\n");
-            Console.WriteLine("*********************************************");
-            Console.Write("Ingrese la opción deseada: ");
         }
     }
 }
