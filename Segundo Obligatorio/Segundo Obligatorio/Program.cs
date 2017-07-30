@@ -136,7 +136,8 @@ namespace Segundo_Obligatorio
                         }
                         else
                         {
-                            Console.WriteLine("El cliente ya se encuentra en la base de datos.");
+                            Console.WriteLine("\nEl cliente ya se encuentra en la base de datos.");
+                            Console.ReadLine();
                         }
                     }
                 }
@@ -159,6 +160,7 @@ namespace Segundo_Obligatorio
         //Método para agregar clientes
         public static void AgregoCliente(int cedula, ref ArrayList ListaClientes)
         {
+            // Creación de un loop para que se siga ejecutando el menú mantenimiento de clientes en caso de ingresar una opción no válida
             bool ejecutando = true;
             while (ejecutando)
             {
@@ -166,25 +168,56 @@ namespace Segundo_Obligatorio
                 Console.Write("\nIngrese el número de tarjeta de crédito o presione 'S' para regresar: ");
                 string tarjeta = Console.ReadLine();
 
-                //Si se presionó "S" se retorna al menú anterior
                 if (tarjeta == "S" || tarjeta == "s")
                 {
+                    //Si se presionó "S" se retorna al menú anterior y se muestra el mensaje para avisar que no se agregó ningún cliente
+                    Console.WriteLine("\nNo se agregó ningún cliente");
+                    Console.ReadLine();
                     ejecutando = false;
                 }
                 else
                 {
-                    try
+                    //Si se ingresó un número de tarjeta se verifica que ese número no haya sido ingresado a nombre de otro cliente
+                    if (BuscoTarjeta(tarjeta, ListaClientes) == null)
                     {
-                        C = new Cliente(cedula, tarjeta);
-                        ListaClientes.Add(C);
-                        ejecutando = false;
+                        try
+                        {
+                            C = new Cliente(cedula, tarjeta);
+                            ListaClientes.Add(C);
+                            Console.WriteLine("\nCliente agregado exitosamente.");
+                            Console.ReadLine();
+                            ejecutando = false;
+                        }
+                        catch (Exception error)
+                        {
+                            Console.WriteLine("\nERROR - " + error.Message);
+                        }
                     }
-                    catch (Exception error)
+                    else
                     {
-                        Console.WriteLine("\nERROR - " + error.Message);
+                        //Si la tarjeta ya se encuentra ingresada a nombre de otro cliente se informa de la situación mediante un mensaje.
+                        Console.Write("\nLa tarjeta ya se encuentra ingresada a nombre de otro cliente.");
+                        Console.ReadLine();
                     }
                 }
             }
         }
+
+        //Método para buscar tarjetas de crédito
+        public static Cliente BuscoTarjeta(string tarjeta, ArrayList ListaClientes)
+        {
+            foreach (Cliente C in ListaClientes)
+            {
+                if (C.Tarjeta == tarjeta)
+                {
+                    return C;
+                }
+            }
+            return null;
+        }
+
+
+
+
     }
 }
