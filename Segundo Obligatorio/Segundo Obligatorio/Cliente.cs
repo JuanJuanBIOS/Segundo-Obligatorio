@@ -9,7 +9,7 @@ namespace Segundo_Obligatorio
     {
         //Definición de atributos
         private int cedula;
-        private int tarjeta;
+        private string tarjeta;
         private string nombre;
         private int telefono;
         private string direccion;
@@ -23,10 +23,16 @@ namespace Segundo_Obligatorio
             set { cedula = value; }
         }
 
-        public int Tarjeta
+        public string Tarjeta
         {
             get { return tarjeta; }
-            set { tarjeta = value; }
+            set
+            {
+                if (value.Length == 16 && Convert.ToInt64(value) < 9999999999999999 && Convert.ToInt64(value) > 0)
+                    tarjeta = value;
+                else
+                    throw new Exception("La tarjeta de crédito debe constar de 16 números.");
+            }
         }
 
         public string Nombre
@@ -54,14 +60,14 @@ namespace Segundo_Obligatorio
         }
 
         //Constructor
-        public Cliente(int cedula, int tarjeta, string nombre, int telefono, string direccion, string fecha_nac)
+        public Cliente(int pcedula, string ptarjeta/*, string pnombre, int ptelefono, string pdireccion, string pfecha_nac*/)
         {
-            this.cedula = cedula;
-            this.tarjeta = tarjeta;
-            this.nombre = nombre;
-            this.telefono = telefono;
-            this.direccion = direccion;
-            this.fecha_nac = fecha_nac;
+            Cedula = pcedula;
+            Tarjeta = ptarjeta;
+            /*Nombre = pnombre;
+            Telefono = ptelefono;
+            Direccion = pdireccion;
+            Fecha_nac = pfecha_nac;*/
         }
 
 

@@ -53,14 +53,14 @@ namespace Segundo_Obligatorio
         }
 
         //Constructor completo
-        public Vehiculo(string matricula, string marca, string modelo, int anio, int cant_puertas, double costo_diario)
+        public Vehiculo(string pmatricula, string pmarca, string pmodelo, int panio, int pcant_puertas, double pcosto_diario)
         {
-            this.matricula = matricula;
-            this.marca = marca;
-            this.modelo = modelo;
-            this.anio = anio;
-            this.cant_puertas = cant_puertas;
-            this.costo_diario = costo_diario;
+            Matricula = pmatricula;
+            Marca = pmarca;
+            Modelo = pmodelo;
+            Anio = panio;
+            Cant_puertas = pcant_puertas;
+            Costo_diario = pcosto_diario;
         }
 
 

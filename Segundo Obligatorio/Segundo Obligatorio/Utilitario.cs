@@ -25,11 +25,11 @@ namespace Segundo_Obligatorio
         }
 
         //Constructor completo
-        public Utilitario(string matricula, string marca, string modelo, int anio, int cant_puertas, double costo_diario, int tipo, double capacidad)
-            : base(matricula, marca, modelo, anio, cant_puertas, costo_diario)
+        public Utilitario(string pmatricula, string pmarca, string pmodelo, int panio, int pcant_puertas, double pcosto_diario, int ptipo, double pcapacidad)
+            : base(pmatricula, pmarca, pmodelo, panio, pcant_puertas, pcosto_diario)
         {
-            this.tipo = tipo;
-            this.capacidad = capacidad;
+            Tipo = ptipo;
+            Capacidad = pcapacidad;
         }
     }
 }

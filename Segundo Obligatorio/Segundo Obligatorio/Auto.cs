@@ -18,10 +18,10 @@ namespace Segundo_Obligatorio
         }
 
         //Constructor completo
-        public Auto(string matricula, string marca, string modelo, int anio, int cant_puertas, double costo_diario, string anclaje)
-            : base(matricula, marca, modelo, anio, cant_puertas, costo_diario)
+        public Auto(string pmatricula, string pmarca, string pmodelo, int panio, int pcant_puertas, double pcosto_diario, string panclaje)
+            : base(pmatricula, pmarca, pmodelo, panio, pcant_puertas, pcosto_diario)
         {
-            this.anclaje = anclaje;
+            Anclaje = panclaje;
         }
 
     }
