@@ -14,6 +14,7 @@ namespace Segundo_Obligatorio
         private int telefono;
         private string direccion;
         private string fecha_nac;
+        List<Alquiler> ListaAlquieres;
 
         //Definición de propiedades
         public int Cedula
@@ -52,7 +53,7 @@ namespace Segundo_Obligatorio
             set { fecha_nac = value; }
         }
 
-        //Constructor completo
+        //Constructor
         public Cliente(int cedula, int tarjeta, string nombre, int telefono, string direccion, string fecha_nac)
         {
             this.cedula = cedula;
@@ -62,6 +63,8 @@ namespace Segundo_Obligatorio
             this.direccion = direccion;
             this.fecha_nac = fecha_nac;
         }
+
+
 
 
     }
