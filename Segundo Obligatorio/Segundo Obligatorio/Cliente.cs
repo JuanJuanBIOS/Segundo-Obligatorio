@@ -9,19 +9,25 @@ namespace Segundo_Obligatorio
     class Cliente
     {
         //Definición de atributos
-        private string documento;
+        private string documento; //Se define el documento como string porque puede ser un pasaporte que contiene letras o cédulas extranjeras que contienen letras
         private string nombre;
-        private string tarjeta;
-        private int telefono;
+        private string tarjeta;  //Se define la tarjeta como string porque puede empezar con ceros y además no se necesita operar con el número de tarjeta
+        private string telefono; //Se define el teléfono como string porque puede empezar con ceros y además no se necesita operar con el número de teléfono
         private string direccion;
         private string fecha_nac;
-        List<Alquiler> ListaAlquieres;
 
         //Definición de propiedades
         public string Documento
         {
             get { return documento; }
-            set { documento = value; }
+            set 
+            {
+                //Se verifica que el número de documento ingresado cuente con al menos 6 caracteres
+                if (value.Length > 5)
+                    tarjeta = value;
+                else
+                    throw new Exception("\nEl número de documento ingresado no es válido. \nEl número de documento debe constar de al menos 6 caracteres.");
+            }
         }
 
         public string Nombre
@@ -35,17 +41,25 @@ namespace Segundo_Obligatorio
             get { return tarjeta; }
             set
             {
+                //Se verifica que el número de tarjeta ingresado cuente con 16 caracteres, que sea un número y que sea mayora a cero
                 if (value.Length == 16 && Convert.ToInt64(value) < 9999999999999999 && Convert.ToInt64(value) > 0)
                     tarjeta = value;
                 else
-                    throw new Exception("La tarjeta de crédito debe constar de 16 números.");
+                    throw new Exception("\nLa tarjeta de crédito debe constar de 16 números.");
             }
         }
 
-        public int Telefono
+        public string Telefono
         {
             get { return telefono; }
-            set { telefono = value; }
+            set 
+            {
+                //Se verifica que el número de telefono ingresado cuente con al menos 6 caracteres y que sea un número mayor a cero
+                if (value.Length > 7 && Convert.ToInt64(value) > 0)
+                    tarjeta = value;
+                else
+                    throw new Exception("\nEl número de teléfono debe constar de al menos 8 caracteres numéricos.");
+            }
         }
 
         public string Direccion
@@ -65,7 +79,7 @@ namespace Segundo_Obligatorio
         {
         }
 
-        //Constructor
+        //Constructor común
         public Cliente(string pdocumento)
         {
             Documento = pdocumento;
@@ -85,17 +99,17 @@ namespace Segundo_Obligatorio
 
                 //Se pide el número de documento y se da la opción de volver al menú principal
                 Console.Write("Ingrese el número documento (cédula o pasaporte) o presione 'S' para regresar: ");
-                string documento = Console.ReadLine();
+                string documentoingresado = Console.ReadLine();
 
                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
-                if (documento == "S" || documento == "s")
+                if (documentoingresado == "S" || documentoingresado == "s")
                 {
                     ejecutando = false;
                 }
                 else
                 {
                     //Se busca al cliente para comprobar si ya fue ingresado
-                    if (BuscoCliente(documento, ListaClientes) == null)
+                    if (BuscoCliente(documentoingresado, ListaClientes) == null)
                     {
                         //Si no se encuentra en el listado de clientes, se pregunta si se quiere añadir
                         Console.Write("\nEl cliente no se encuentra en la base de datos. ¿Desea agregarlo <S/N>?: ");
@@ -103,7 +117,7 @@ namespace Segundo_Obligatorio
                         if (opcion == "S" || opcion == "s")
                         {
                             //Si se quiere añadir al cliente, se ejecuta el método para hacerlo
-                            AgregoCliente(documento, ListaClientes);
+                            AgregoCliente(documentoingresado, ListaClientes);
                             ejecutando = false;
                         }
                         else
@@ -122,11 +136,11 @@ namespace Segundo_Obligatorio
         }
 
         //Método para buscar clientes
-        public static Cliente BuscoCliente(string documento, ArrayList ListaClientes)
+        public static Cliente BuscoCliente(string documentoingresado, ArrayList ListaClientes)
         {
             foreach (Cliente C in ListaClientes)
             {
-                if (C.Documento == documento)
+                if (C.Documento == documentoingresado)
                 {
                     return C;
                 }
@@ -135,13 +149,30 @@ namespace Segundo_Obligatorio
         }
 
         //Método para agregar cliente
-        public static void AgregoCliente(string documento, ArrayList ListaClientes)
+        public static void AgregoCliente(string documentoingresado, ArrayList ListaClientes)
         {
-            //Se crea un cliente nuevo con el número de documento 
-            Cliente C = new Cliente(documento);
-            C.AgregoNombre(C);
-            C.AgregoTarjeta(C, ListaClientes);
-            ListaClientes.Add(C);
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                //Se crea un cliente nuevo con el número de documento 
+                try
+                {
+                    Cliente C = new Cliente(documentoingresado);
+                    C.AgregoNombre(C);
+                    C.AgregoTarjeta(C, ListaClientes);
+                    C.AgregoTelefono(C);
+                    //C.AgregoDireccion(C);
+                    //C.AgregoFechaNac(C);
+                    ListaClientes.Add(C);
+                    ejecutando = false;
+                }
+                catch (Exception error)
+                {
+                    Console.Write(error.Message);
+                    Console.ReadLine();
+                    break;
+                }
+            }
         }
 
         //Método para agregar nombre del cliente
@@ -149,7 +180,8 @@ namespace Segundo_Obligatorio
         {
             //Se pide el nombre del cliente
             Console.Write("\nIngrese el nombre del cliente: ");
-            C.Nombre = Console.ReadLine();
+            string nombreingresado = Console.ReadLine();
+            C.Nombre = nombreingresado;
         }
 
         //Método para agregar la tarjeta del cliente
@@ -161,21 +193,24 @@ namespace Segundo_Obligatorio
             {
                 //Se pide la tarjeta de crédito del cliente
                 Console.Write("\nIngrese la tarjeta de crédito: ");
-                string valoringresado = Console.ReadLine();
-                if (BuscoTarjeta(valoringresado, ListaClientes) == null)
+                string tarjetaingresada = Console.ReadLine();
+                //Se busca si la tarjeta ya está ingresada a nombre de otro cliente
+                if (BuscoTarjeta(tarjetaingresada, ListaClientes) == null)
                 {
+                    //Si no se encontró la tarjeta ingresada a nombre de otro cliente se guarda el valor en el cliente que se está creando
                     try
                     {
-                        C.Tarjeta = valoringresado;
+                        C.Tarjeta = tarjetaingresada;
                         ejecutando = false;
                     }
                     catch (Exception error)
                     {
-                        Console.Write(error.Message);
+                        Console.WriteLine(error.Message);
                     }
                 }
                 else
                 {
+                    //Si se encontró la tarjeta ingresada a nombre de otro cliente se informa de la situación
                     Console.Write("\nLa tarjeta asociada ingresada está asociada a otro cliente.");
                     Console.ReadLine();
                 }
@@ -183,17 +218,41 @@ namespace Segundo_Obligatorio
         }
 
         //Método para buscar tarjetas de crédito
-        public static Cliente BuscoTarjeta(string tarjeta, ArrayList ListaClientes)
+        public static Cliente BuscoTarjeta(string tarjetaingresada, ArrayList ListaClientes)
         {
             foreach (Cliente C in ListaClientes)
             {
-                if (C.Tarjeta == tarjeta)
+                if (C.Tarjeta == tarjetaingresada)
                 {
                     return C;
                 }
             }
             return null;
         }
+
+        //Método para agregar teléfono del cliente
+        public void AgregoTelefono(Cliente C)
+        {
+            //Creación de un loop para volver a pedir el número de teléfono en caso de ingresar un número no válido
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                //Se pide la tarjeta de crédito del cliente
+                Console.Write("\nIngrese el número de teléfono: ");
+                string telingresado = Console.ReadLine();
+                try
+                {
+                    C.Telefono = telingresado;
+                    ejecutando = false;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error.Message);
+                }
+            }
+        }
+
+
 
     }
 }
