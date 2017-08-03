@@ -73,6 +73,16 @@ namespace Segundo_Obligatorio
             get { return fecha_nac; }
             set 
             {
+                /*DateTime dt = DateTime.Parse(dob_main.Text);
+DateTime dt_now = DateTime.Now;
+
+DateTime dt_18 = dt.AddYears(-18);
+
+if (dt.Date >= dt_18.Date)
+{
+    MessageBox.Show("Invalid Birth Day");
+}*/
+
                 //Se define una variable auxiliar para calcular la diferencia entre el año actual y el año de nacimiento
                 int difanio = DateTime.Now.Year - value.Year;
                 //Se comprueba que el cliente sea mayor de 18 años, teniendo en cuenta que si la diferencia entre el año actual y 
