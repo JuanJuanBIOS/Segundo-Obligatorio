@@ -71,30 +71,18 @@ namespace Segundo_Obligatorio
         public DateTime Fecha_nac
         {
             get { return fecha_nac; }
-            set 
+            set
             {
-                /*DateTime dt = DateTime.Parse(dob_main.Text);
-DateTime dt_now = DateTime.Now;
-
-DateTime dt_18 = dt.AddYears(-18);
-
-if (dt.Date >= dt_18.Date)
-{
-    MessageBox.Show("Invalid Birth Day");
-}*/
-
-                //Se define una variable auxiliar para calcular la diferencia entre el año actual y el año de nacimiento
-                int difanio = DateTime.Now.Year - value.Year;
-                //Se comprueba que el cliente sea mayor de 18 años, teniendo en cuenta que si la diferencia entre el año actual y 
-                //el año de nacimiento es 18 puede ocurrir que el cliente aún no haya cumplido los 18 años
-                if (difanio<18||(difanio==18&&value.Month>DateTime.Now.Month)||
-                    (difanio==18&&value.Month==DateTime.Now.Month&&value.Day>DateTime.Now.Day))
+                //A la fecha actual se le sacan 18 años
+                DateTime menos18anios = DateTime.Now.AddYears(-18);
+                //Se compara el valor obtenido con la fecha actual para verificar si el cliente es mayor de edad
+                if (value.Date <= menos18anios.Date)
                 {
-                    throw new Exception("\nERROR - El cliente debe ser mayor de edad.");
+                    fecha_nac = value;
                 }
                 else
                 {
-                    fecha_nac=value;
+                    throw new Exception("\nERROR - El cliente debe ser mayor de edad.");
                 }
             }
         }
@@ -108,6 +96,17 @@ if (dt.Date >= dt_18.Date)
         public Cliente(string pdocumento)
         {
             Documento = pdocumento;
+        }
+
+        //Constructor completo
+        public Cliente(string pdocumento, string pnombre, string ptarjeta, string ptelefono, string pdireccion, DateTime pfecha_nac)
+        {
+            Documento = pdocumento;
+            Nombre = pnombre;
+            Tarjeta = ptarjeta;
+            Telefono = ptelefono;
+            Direccion = pdireccion;
+            Fecha_nac = pfecha_nac;
         }
 
         //Método Mantenimiento de Clientes
@@ -144,8 +143,50 @@ if (dt.Date >= dt_18.Date)
                     }
                     else
                     {
-                        Console.Write("\nEl cliente ya se encuentra en la base de datos.");
-                        Console.ReadLine();
+                        //Si se encontró el cliente se muestran los datos y se pregunta qué se quiere hacer, si eliminarlo o modificarlo
+                        Cliente encontrado = BuscoCliente(documentoingresado, ListaClientes);
+                        
+                        Console.WriteLine("\nEl cliente ya se encuentra en la base de datos.");
+                        Console.WriteLine("Los datos del cliente ingresado son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.WriteLine("\n1 - Modificar datos del cliente");
+                        Console.WriteLine("2 - Eliminar cliente");
+                        Console.WriteLine("3 - Salir");
+                        
+                        //Creación de un loop para que se siga preguntando qué se desea hacer si se ingresa una opción no válida
+                        bool ejecutando2 = true;
+                        while (ejecutando2)
+                        {
+                            int opcion = 0;
+                            Console.Write("\nIngrese la opción deseada: ");
+                            //Se pide el número de opción
+                            bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
+
+                            //Verificación de que la opción ingresada es válida
+                            if (!esnumero || opcion <= 0 || opcion > 3)
+                            {
+                                Console.Write("ERROR - La opción ingresada no es válida.");
+                                Console.ReadLine();
+                            }
+
+                            // Ejecución de métodos dependiendo de la opción ingresada
+                            switch (opcion)
+                            {
+                                case 1:
+                                    encontrado.ModificarCliente(encontrado, ListaClientes);
+                                    ejecutando2 = false;
+                                    break;
+                                case 2:
+                                    encontrado.EliminarCliente(encontrado, ListaClientes);
+                                    ejecutando2 = false;
+                                    break;
+                                case 3:
+                                    ejecutando2 = false;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                 }
             }
@@ -177,7 +218,7 @@ if (dt.Date >= dt_18.Date)
                     Cliente C = new Cliente(documentoingresado);
                     
                     //Se ejecuta el método para agregar el nombre del cliente
-                    C.AgregoNombre(C, out ejecutando);
+                    C.AgregoNombre(C, ListaClientes, out ejecutando);
                     if (ejecutando)
                         break;
 
@@ -187,17 +228,17 @@ if (dt.Date >= dt_18.Date)
                         break;
 
                     //Se ejecuta el método para agregar el teléfono del cliente
-                    C.AgregoTelefono(C, out ejecutando);
+                    C.AgregoTelefono(C, ListaClientes, out ejecutando);
                     if (ejecutando)
                         break;
 
                     //Se ejecuta el método para agregar la dirección del cliente
-                    C.AgregoDireccion(C, out ejecutando);
+                    C.AgregoDireccion(C,ListaClientes, out ejecutando);
                     if (ejecutando)
                         break;
-
+                    
                     //Se ejecuta el método para agregar la fecha de nacimiento del cliente
-                    C.AgregoFechaNac(C, out ejecutando);
+                    C.AgregoFechaNac(C, ListaClientes, out ejecutando);
                     if (ejecutando)
                         break;
 
@@ -207,16 +248,11 @@ if (dt.Date >= dt_18.Date)
                     Console.WriteLine("\n********************************************* \n");
 
                     Console.WriteLine("Los datos ingresados para el cliente son los siguientes: ");
-                    Console.WriteLine("\nDocumento: \t\t{0}", C.documento);
-                    Console.WriteLine("Nombre: \t\t{0}", C.nombre);
-                    Console.WriteLine("Nº de tarjeta: \t\t{0}", C.tarjeta);
-                    Console.WriteLine("Teléfono: \t\t{0}", C.telefono);
-                    Console.WriteLine("Dirección: \t\t{0}", C.direccion);
-                    Console.WriteLine("Fecha de nacimiento: \t{0}", C.fecha_nac.ToShortDateString());
+                    C.MostrarCliente(C);
 
                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                     string opcion = Console.ReadLine();
-                    if (opcion == "S" || opcion == "s")
+                    if (presionarS(opcion))
                     {
                         ListaClientes.Add(C);
                         Console.Write("\nCliente ingresado con éxito.");
@@ -240,7 +276,7 @@ if (dt.Date >= dt_18.Date)
         }
 
         //Método para agregar nombre del cliente
-        public void AgregoNombre(Cliente C, out bool ejecutando)
+        public void AgregoNombre(Cliente C, ArrayList ListaClientes, out bool ejecutando)
         {
             //Se pide el nombre del cliente
             Console.Write("\nIngrese el nombre del cliente o presione 'S' para salir: ");
@@ -291,7 +327,7 @@ if (dt.Date >= dt_18.Date)
                     else
                     {
                         //Si se encontró la tarjeta ingresada a nombre de otro cliente se informa de la situación
-                        Console.Write("La tarjeta asociada ingresada está asociada a otro cliente.");
+                        Console.Write("\nLa tarjeta asociada ingresada está asociada a otro cliente.");
                         Console.ReadLine();
                     }
                 }
@@ -312,7 +348,7 @@ if (dt.Date >= dt_18.Date)
         }
         
         //Método para agregar teléfono del cliente
-        public void AgregoTelefono(Cliente C, out bool ejecutando)
+        public void AgregoTelefono(Cliente C, ArrayList ListaClientes, out bool ejecutando)
         {
             //Creación de un loop para volver a pedir el número de teléfono en caso de ingresar un número no válido
             ejecutando = true;
@@ -342,7 +378,7 @@ if (dt.Date >= dt_18.Date)
         }
 
         //Método para agregar la dirección del cliente
-        public void AgregoDireccion(Cliente C, out bool ejecutando)
+        public void AgregoDireccion(Cliente C, ArrayList ListaClientes, out bool ejecutando)
         {
             //Se pide la dirección del cliente
             Console.Write("\nIngrese la dirección del cliente o presione 'S' para salir: ");
@@ -358,7 +394,7 @@ if (dt.Date >= dt_18.Date)
         }
 
         //Método para agregar la fecha de nacimiento del cliente
-        public void AgregoFechaNac(Cliente C, out bool ejecutando)
+        public void AgregoFechaNac(Cliente C,ArrayList ListaClientes, out bool ejecutando)
         {
             ejecutando = true;
             bool ejecutando2 = true;
@@ -405,6 +441,106 @@ if (dt.Date >= dt_18.Date)
                 return false;
         }
 
+        //Método para modificar los datos de un cliente
+        public void ModificarCliente(Cliente encontrado, ArrayList ListaClientes)
+        {
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                Console.Clear();
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("            Modificar cliente");
+                Console.WriteLine("\n********************************************* \n");
 
+                Console.WriteLine("Elija el dato que desea modificar: ");
+                Console.WriteLine("\n1 - Documento: \t\t\t{0}", encontrado.documento);
+                Console.WriteLine("2 - Nombre: \t\t\t{0}", encontrado.nombre);
+                Console.WriteLine("3 - Nº de tarjeta: \t\t{0}", encontrado.tarjeta);
+                Console.WriteLine("4 - Teléfono: \t\t\t{0}", encontrado.telefono);
+                Console.WriteLine("5 - Dirección: \t\t\t{0}", encontrado.direccion);
+                Console.WriteLine("6 - Fecha de nacimiento: \t{0}", encontrado.fecha_nac.ToShortDateString());
+                Console.WriteLine("7 - Salir");
+                Console.Write("\nDigite la opción deseada: ");
+
+                int opcion = 0;
+                bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
+
+                if (!esnumero || opcion <= 0 || opcion > 7)
+                {
+                    Console.Write("ERROR - La opción ingresada no es válida.");
+                    Console.ReadLine();
+                }
+
+                switch (opcion)
+                {
+                    case 1:
+                        //;
+                        break;
+                    case 2:
+                        AgregoNombre(encontrado, ListaClientes, out ejecutando);
+                        Console.Write("\nEl nombre se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        AgregoTarjeta(encontrado, ListaClientes, out ejecutando);
+                        Console.Write("\nEl número de tarjeta se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        AgregoTelefono(encontrado, ListaClientes, out ejecutando);
+                        Console.Write("\nEl teléfono se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.ReadLine();
+                        break;
+                    case 5:
+                        AgregoDireccion(encontrado, ListaClientes, out ejecutando);
+                        Console.Write("\nLa dirección se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.ReadLine();
+                        break;
+                    case 6:
+                        AgregoFechaNac(encontrado, ListaClientes, out ejecutando);
+                        Console.Write("\nLa fecha de nacimiento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                        encontrado.MostrarCliente(encontrado);
+                        Console.ReadLine();
+                        break;
+                    case 7:
+                        ejecutando = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+        }
+
+        //Método para eliminar los datos de un cliente
+        public void EliminarCliente(Cliente encontrado, ArrayList ListaClientes)
+        {
+            Console.Write("\n¿Confirma que desea eliminar el cliente? <S/N>: ");
+            if (presionarS(Console.ReadLine()))
+            {
+                ListaClientes.Remove(encontrado);
+                Console.Write("\nSe ha eliminado el cliente.");
+            }
+            else
+                Console.Write("\nNo se ha eliminado el cliente");
+        }
+
+        //Método para mostrar los datos de un cliente
+        public void MostrarCliente(Cliente buscado)
+        {
+            Console.WriteLine("\n*********************************************");
+            Console.WriteLine("\nDocumento: \t\t{0}", buscado.documento);
+            Console.WriteLine("Nombre: \t\t{0}", buscado.nombre);
+            Console.WriteLine("Nº de tarjeta: \t\t{0}", buscado.tarjeta);
+            Console.WriteLine("Teléfono: \t\t{0}", buscado.telefono);
+            Console.WriteLine("Dirección: \t\t{0}", buscado.direccion);
+            Console.WriteLine("Fecha de nacimiento: \t{0}", buscado.fecha_nac.ToShortDateString());
+            Console.WriteLine("*********************************************");
+        }
     }
 }
