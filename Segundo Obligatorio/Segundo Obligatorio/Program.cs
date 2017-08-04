@@ -39,6 +39,7 @@ namespace Segundo_Obligatorio
                         break;
                     case 2:
                         //Manteminiento de Autos;
+                        Auto.MantenimientoAutos(ListaVehiculos);
                         break;
                     case 3:
                         //Mantenimiento de Utilitarios;
