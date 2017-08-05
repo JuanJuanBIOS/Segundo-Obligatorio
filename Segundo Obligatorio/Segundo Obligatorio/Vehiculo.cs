@@ -119,56 +119,48 @@ namespace Segundo_Obligatorio
                     //Se crea el vehículo con la matricula ingresada
                     Vehiculo V = new Vehiculo(matriculaingresada);
 
-                    //Se ejecuta el método para agregar nuevo vehículo
-                    V.AgregoMatricula(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-                    //Se ejecuta el método para agregar la tarjeta de crédito del cliente
+                    //Se ejecuta el método para agregar la marca del vehiculo
                     V.AgregoMarca(V, out ejecutando);
                     if (ejecutando)
                         break;
 
-                    //Se ejecuta el método para agregar el teléfono del cliente
+                    //Se ejecuta el método para agregar el modelo del vehiculo
                     V.AgregoModelo(V, out ejecutando);
                     if (ejecutando)
                         break;
 
-                    //Se ejecuta el método para agregar la dirección del cliente
+                    //Se ejecuta el método para agregar la cantidad de puertas
                     V.AgregoCant_puertas(V, out ejecutando);
                     if (ejecutando)
                         break;
 
-                    //Se ejecuta el método para agregar la fecha de nacimiento del cliente
-                    C.AgregoFechaNac(C, out ejecutando);
-                    if (ejecutando)
-                        break;
+
 
                     Console.Clear();
                     Console.WriteLine("*********************************************");
-                    Console.WriteLine("            Mantenimiento de clientes");
+                    Console.WriteLine("            Mantenimiento de vehículos");
                     Console.WriteLine("\n********************************************* \n");
 
-                    Console.WriteLine("Los datos ingresados para el cliente son los siguientes: ");
-                    Console.WriteLine("\nDocumento: \t\t{0}", C.documento);
-                    Console.WriteLine("Nombre: \t\t{0}", C.nombre);
-                    Console.WriteLine("Nº de tarjeta: \t\t{0}", C.tarjeta);
-                    Console.WriteLine("Teléfono: \t\t{0}", C.telefono);
-                    Console.WriteLine("Dirección: \t\t{0}", C.direccion);
-                    Console.WriteLine("Fecha de nacimiento: \t{0}", C.fecha_nac.ToShortDateString());
+                    Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
+                    Console.WriteLine("\nMatrícula: \t\t{0}", V.Matricula);
+                    Console.WriteLine("Modelo: \t\t{0}", V.Modelo);
+                    //Console.WriteLine("Nº de tarjeta: \t\t{0}", V.tarjeta);
+                  //  Console.WriteLine("Teléfono: \t\t{0}", C.telefono);
+                    //Console.WriteLine("Dirección: \t\t{0}", C.direccion);
+                    //Console.WriteLine("Fecha de nacimiento: \t{0}", C.fecha_nac.ToShortDateString());
 
                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                     string opcion = Console.ReadLine();
                     if (opcion == "S" || opcion == "s")
                     {
-                        ListaClientes.Add(C);
-                        Console.Write("\nCliente ingresado con éxito.");
+                        ListaVehiculo.Add(V);
+                        Console.Write("\nVehículo ingresado con éxito.");
                         Console.ReadLine();
                         //ejecutando = false;
                     }
                     else
                     {
-                        Console.Write("\nNo se agregó el cliente a la base de datos.");
+                        Console.Write("\nNo se agregó el vehículo a la base de datos.");
                         Console.ReadLine();
                         //ejecutando = false;
                     }
@@ -182,20 +174,7 @@ namespace Segundo_Obligatorio
             }
         }
 
-        //Método para agregar matricula
-        public void AgregoMatricula(Vehiculo V, out bool ejecutando)
-        {
-            //Se pide matricula
-            Console.Write("\nIngrese la matricula o presione 'S' para salir: ");
-            string matriculaingresada = Console.ReadLine();
-            if (Cliente.presionarS(matriculaingresada))
-                ejecutando = true;
-            else
-            {
-                V.Marca = matriculaingresada;
-                ejecutando = false;
-            }
-        }
+
 
 
         //Método para agregar marca
@@ -255,6 +234,21 @@ namespace Segundo_Obligatorio
                     {
                         Console.WriteLine(error.Message);
                     }
+            }
+        }
+
+        //Método para agregar modelo
+        public void AgregoCant_puertas(Vehiculo V, out bool ejecutando)
+        {
+            //Se pide modelo
+            Console.Write("\nIngrese el modelo o presione 'S' para salir: ");
+            string modeloingresado = Console.ReadLine();
+            if (Cliente.presionarS(modeloingresado))
+                ejecutando = true;
+            else
+            {
+                V.Modelo = modeloingresado;
+                ejecutando = false;
             }
         }
     }

@@ -39,7 +39,7 @@ namespace Segundo_Obligatorio
                 Console.WriteLine("\n********************************************* \n");
 
                 //Se pide el número de matricula y se da la opción de volver al menú principal
-                Console.Write("Ingrese el número matrícula (3 letras mayúsculas y 4 dígitos) o presione 'S' para regresar: ");
+                Console.Write("Ingrese el número matrícula(3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
                 string matriculaingresada = Console.ReadLine();
 
                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
