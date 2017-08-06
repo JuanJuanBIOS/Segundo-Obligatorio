@@ -73,10 +73,10 @@ namespace Segundo_Obligatorio
             get { return fecha_nac; }
             set
             {
-                //A la fecha actual se le sacan 18 años
-                DateTime menos18anios = DateTime.Now.AddYears(-18);
-                //Se compara el valor obtenido con la fecha actual para verificar si el cliente es mayor de edad
-                if (value.Date <= menos18anios.Date)
+                //A la fecha actual se le sacan 25 años
+                DateTime menos25anios = DateTime.Now.AddYears(-25);
+                //Se compara el valor obtenido con la fecha actual para verificar si el cliente es mayor de 25 años
+                if (value.Date <= menos25anios.Date)
                 {
                     fecha_nac = value;
                 }
@@ -172,10 +172,12 @@ namespace Segundo_Obligatorio
                             // Ejecución de métodos dependiendo de la opción ingresada
                             switch (opcion)
                             {
+                                //Si se seleccionó la opción para modificar los datos del cliente se llama al método para hacerlo
                                 case 1:
                                     encontrado.ModificarCliente(encontrado, ListaClientes);
                                     ejecutando2 = false;
                                     break;
+                                //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo
                                 case 2:
                                     encontrado.EliminarCliente(encontrado, ListaClientes);
                                     ejecutando2 = false;
@@ -396,12 +398,15 @@ namespace Segundo_Obligatorio
         //Método para agregar la fecha de nacimiento del cliente
         public void AgregoFechaNac(Cliente C,ArrayList ListaClientes, out bool ejecutando)
         {
+            //Creación de un loop para pedir de nuevo la fecha de nacimiento en caso de ingresar una fecha no válida
             ejecutando = true;
             bool ejecutando2 = true;
             while (ejecutando2)
             {
+                //Se pide el ingreso de la fecha de nacimiento del cliente y se da la opción de presionar S para salir
                 Console.Write("\nIngrese la fecha de nacimiento del cliente (DD/MM/AAA) o presione 'S' para salir: ");
                 string fechaingresada = Console.ReadLine();
+                //Si se presionó S se sale de esta opción
                 if (presionarS(fechaingresada))
                 {
                     ejecutando2 = false;
@@ -409,21 +414,25 @@ namespace Segundo_Obligatorio
                 }
                 else
                 {
+                    //Se intenta convertir la fecha ingresada por el usuario en un formato de fecha válido
                     DateTime fechanac;
                     bool esfecha = DateTime.TryParse(fechaingresada, out fechanac);
                     if (esfecha)
                     {
+                        //Si se pudo convertir a una fecha válida se intenta guardar el dato
                         try
                         {
                             C.Fecha_nac = fechanac;
                             ejecutando2 = false;
                             ejecutando = false;
                         }
+                        //En caso de existir algún error como que el cliente sea menor de 25 años se muestra el mensaje
                         catch (Exception error)
                         {
                             Console.WriteLine(error.Message);
                         }
                     }
+                    //Si no se ingresó una fecha válida se muestra el error
                     else
                     {
                         Console.Write("\nERROR - La fecha ingresada no es válida.");
@@ -444,9 +453,11 @@ namespace Segundo_Obligatorio
         //Método para modificar los datos de un cliente
         public void ModificarCliente(Cliente encontrado, ArrayList ListaClientes)
         {
+            //Creación de un loop para volver a pedir la opción deseada en caso de ingresar una opción no válida
             bool ejecutando = true;
             while (ejecutando)
             {
+                //Se muestran los datos del cliente y se pregunta qué dato se desea modificar
                 Console.Clear();
                 Console.WriteLine("*********************************************");
                 Console.WriteLine("            Modificar cliente");
@@ -464,47 +475,68 @@ namespace Segundo_Obligatorio
 
                 int opcion = 0;
                 bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
-
+                //En caso de ingresar una opción no válida se muestra el error
                 if (!esnumero || opcion <= 0 || opcion > 7)
                 {
                     Console.Write("ERROR - La opción ingresada no es válida.");
                     Console.ReadLine();
                 }
-
+                //En caso de ingresar una opción válida se ejecutan los métodos dependiendo de la opción deseada
                 switch (opcion)
                 {
                     case 1:
-                        //;
+                        AgregoDocumento(encontrado, ListaClientes, out ejecutando);
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nEl documento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 2:
                         AgregoNombre(encontrado, ListaClientes, out ejecutando);
-                        Console.Write("\nEl nombre se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                        encontrado.MostrarCliente(encontrado);
-                        Console.ReadLine();
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nEl nombre se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 3:
                         AgregoTarjeta(encontrado, ListaClientes, out ejecutando);
-                        Console.Write("\nEl número de tarjeta se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                        encontrado.MostrarCliente(encontrado);
-                        Console.ReadLine();
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nEl número de tarjeta se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 4:
                         AgregoTelefono(encontrado, ListaClientes, out ejecutando);
-                        Console.Write("\nEl teléfono se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                        encontrado.MostrarCliente(encontrado);
-                        Console.ReadLine();
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nEl teléfono se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 5:
                         AgregoDireccion(encontrado, ListaClientes, out ejecutando);
-                        Console.Write("\nLa dirección se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                        encontrado.MostrarCliente(encontrado);
-                        Console.ReadLine();
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nLa dirección se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 6:
                         AgregoFechaNac(encontrado, ListaClientes, out ejecutando);
-                        Console.Write("\nLa fecha de nacimiento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                        encontrado.MostrarCliente(encontrado);
-                        Console.ReadLine();
+                        if (!ejecutando)
+                        {
+                            Console.Write("\nLa fecha de nacimiento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                            encontrado.MostrarCliente(encontrado);
+                            Console.ReadLine();
+                        }
                         break;
                     case 7:
                         ejecutando = false;
@@ -517,9 +549,42 @@ namespace Segundo_Obligatorio
 
         }
 
+        //Método para agregar el documento del cliente
+        public void AgregoDocumento(Cliente C, ArrayList ListaClientes, out bool ejecutando)
+        {
+            //Creación de un loop para volver a pedir el documento en caso de ingresar un número no válido
+            ejecutando = true;
+            bool ejecutando2 = true;
+            while (ejecutando2)
+            {
+                //Se pide el número de documento del cliente
+                Console.Write("\nIngrese el número documento (cédula o pasaporte) o presione 'S' para regresar: ");
+                string docingresado = Console.ReadLine();
+                if (presionarS(docingresado))
+                {
+                    ejecutando2 = false;
+                    ejecutando = true;
+                }
+                else
+                    try
+                    {
+                        C.Documento = docingresado;
+                        ejecutando2 = false;
+                        ejecutando = false;
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
+            }
+        }
+
         //Método para eliminar los datos de un cliente
         public void EliminarCliente(Cliente encontrado, ArrayList ListaClientes)
         {
+            //**********************************************************************
+            //ACÁ FALTA VERIFICAR QUE EL CLIENTE NO TENGA NINGÚN ALQUIER ASOCIADO
+            //**********************************************************************
             Console.Write("\n¿Confirma que desea eliminar el cliente? <S/N>: ");
             if (presionarS(Console.ReadLine()))
             {
