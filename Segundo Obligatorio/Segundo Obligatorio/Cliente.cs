@@ -210,6 +210,7 @@ namespace Segundo_Obligatorio
         //Método para agregar cliente
         public static void AgregoCliente(string documentoingresado, ArrayList ListaClientes)
         {
+            //Creación de un loop para permitir que en cualquier parte del ingreso de los datos se pueda cancelar el mismo
             bool ejecutando = true;
             while (ejecutando)
             {
@@ -259,13 +260,13 @@ namespace Segundo_Obligatorio
                         ListaClientes.Add(C);
                         Console.Write("\nCliente ingresado con éxito.");
                         Console.ReadLine();
-                        //ejecutando = false;
+                        ejecutando = false;
                     }
                     else
                     {
                         Console.Write("\nNo se agregó el cliente a la base de datos.");
                         Console.ReadLine();
-                        //ejecutando = false;
+                        ejecutando = false;
                     }
                 }
                 catch (Exception error)
