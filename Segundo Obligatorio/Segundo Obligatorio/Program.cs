@@ -20,12 +20,14 @@ namespace Segundo_Obligatorio
             ListaClientes.Add(C2);
             ListaClientes.Add(C3);
             ArrayList VehiculosAUX = new ArrayList();
-            Auto A1 = new Auto("ABC1234", "Fiat", "Uno", 2001, 4, 15, "ISOFIX");
-            Auto A2 = new Auto("DEF5678", "Chevrolet", "Aveo", 2015, 4, 30, "Cinturón");
-            Utilitario A3 = new Utilitario("GHI9876", "BMW", "X1", 2010, 5, 40, "PickUp",500);
-            VehiculosAUX.Add(A1);
-            VehiculosAUX.Add(A2);
-            VehiculosAUX.Add(A3);
+            Auto V1 = new Auto("ABC1234", "Fiat", "Uno", 2001, 4, 15, "ISOFIX");
+            Auto V2 = new Auto("DEF5678", "Chevrolet", "Aveo", 2015, 4, 30, "Cinturón");
+            Utilitario V3 = new Utilitario("GHI9876", "BMW", "X1", 2010, 5, 40, "PickUp",500);
+            VehiculosAUX.Add(V1);
+            VehiculosAUX.Add(V2);
+            VehiculosAUX.Add(V3);
+            Alquiler A = new Alquiler(V1, C1, Convert.ToDateTime("15/08/2017"), Convert.ToDateTime("16/09/2017"), 155, 1);
+            ListaAlquileres.Add(A);
 
             // Creación de un loop para que se siga ejecutando el menú principal en caso de ingresar una opción no válida
             bool ejecutando = true;
@@ -49,7 +51,7 @@ namespace Segundo_Obligatorio
                 switch (opcion)
                 {
                     case 1:
-                        Cliente.MantenimientoClientes(ListaClientes);
+                        Cliente.MantenimientoClientes(ListaClientes, ListaAlquileres);
                         break;
                     case 2:
                         //Manteminiento de Autos;

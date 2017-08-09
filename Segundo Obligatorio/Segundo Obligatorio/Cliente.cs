@@ -110,7 +110,7 @@ namespace Segundo_Obligatorio
         }
 
         //Método Mantenimiento de Clientes
-        public static void MantenimientoClientes(ArrayList ListaClientes)
+        public static void MantenimientoClientes(ArrayList ListaClientes, ArrayList ListaAlquileres)
         {
             // Creación de un loop para que se siga ejecutando el menú mantenimiento de clientes
             bool ejecutando = true;
@@ -179,7 +179,7 @@ namespace Segundo_Obligatorio
                                     break;
                                 //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo
                                 case 2:
-                                    encontrado.EliminarCliente(encontrado, ListaClientes);
+                                    encontrado.EliminarCliente(encontrado, ListaClientes, ListaAlquileres);
                                     ejecutando2 = false;
                                     break;
                                 case 3:
@@ -581,19 +581,33 @@ namespace Segundo_Obligatorio
         }
 
         //Método para eliminar los datos de un cliente
-        public void EliminarCliente(Cliente encontrado, ArrayList ListaClientes)
+        public void EliminarCliente(Cliente encontrado, ArrayList ListaClientes, ArrayList ListaAlquileres)
         {
-            //**********************************************************************
-            //ACÁ FALTA VERIFICAR QUE EL CLIENTE NO TENGA NINGÚN ALQUIER ASOCIADO
-            //**********************************************************************
-            Console.Write("\n¿Confirma que desea eliminar el cliente? <S/N>: ");
-            if (presionarS(Console.ReadLine()))
+            bool tienealquiler = false;
+            foreach (Alquiler A in ListaAlquileres)
             {
-                ListaClientes.Remove(encontrado);
-                Console.Write("\nSe ha eliminado el cliente.");
+                if (A.Cliente == encontrado)
+                {
+                    tienealquiler = true;
+                }
+            }
+
+            if (tienealquiler)
+            {
+                Console.Write("\nNo se puede eliminar el cliente ya que el mismo posee alquileres a su nombre.");
+                Console.ReadLine();
             }
             else
-                Console.Write("\nNo se ha eliminado el cliente");
+            {
+                Console.Write("\n¿Confirma que desea eliminar el cliente? <S/N>: ");
+                if (presionarS(Console.ReadLine()))
+                {
+                    ListaClientes.Remove(encontrado);
+                    Console.Write("\nSe ha eliminado el cliente.");
+                }
+                else
+                    Console.Write("\nNo se ha eliminado el cliente");
+            }
         }
 
         //Método para mostrar los datos de un cliente

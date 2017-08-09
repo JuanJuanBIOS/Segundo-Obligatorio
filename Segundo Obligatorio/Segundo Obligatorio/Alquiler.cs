@@ -17,22 +17,64 @@ namespace Segundo_Obligatorio
         private int codigo;
 
         //Definición de propiedades
+        public Vehiculo Vehiculo
+        {
+            get { return vehiculo; }
+            set { vehiculo = value; }
+        }
+
+        public Cliente Cliente
+        {
+            get { return cliente; }
+            set { cliente = value; }
+        }
+
         public DateTime Fecha_inicio
         {
-            get { return Fecha_inicio; }
-            set { fecha_inicio = value; }
+            get { return fecha_inicio; }
+            set
+            {
+                if (value.Date >= DateTime.Now.Date)
+                {
+                    fecha_inicio = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - La fecha de inicio no puede ser anterior a hoy.");
+                } 
+            }
         }
 
         public DateTime Fecha_fin
         {
             get { return fecha_fin; }
-            set { fecha_fin = value; }
+            set
+            {
+                if (value.Date >= DateTime.Now.Date)
+                {
+                    fecha_fin = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - La fecha de fin no puede ser anterior a hoy.");
+                }
+            }
         }
 
         public double Costo
         {
             get { return costo; }
-            set { costo = value; }
+            set
+            {
+                if (value > 0)
+                {
+                    costo = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - El costo debe ser mayor a cero.");
+                }
+            }
         }
 
         public int Codigo
@@ -47,6 +89,18 @@ namespace Segundo_Obligatorio
         {
             cliente = arrendador;
         }
+
+        //Constructor completo
+        public Alquiler(Vehiculo pV, Cliente pC, DateTime pfechaini, DateTime pfechafin, double pcosto, int pcodigo)
+        {
+            Vehiculo = pV;
+            Cliente = pC;
+            Fecha_inicio = pfechaini;
+            Fecha_fin = pfechafin;
+            Costo = pcosto;
+            Codigo = pcodigo;
+        }
+
 
         public static void RealizarAlquiler(ArrayList ListaClientes, ArrayList VehiculosAUX, ArrayList ListaAlquileres)
         {
@@ -119,15 +173,16 @@ namespace Segundo_Obligatorio
                     if (ejecutando)
                         break;
 
-                    /*//Se ejecuta el método para agregar las fechas del alquiler
+                    //Se ejecuta el método para agregar las fechas del alquiler
                     A.AgregoFechas(A, VehiculosAUX, ListaAlquileres, out ejecutando);
                     if (ejecutando)
-                        break;*/
+                        break;
 
                     //Se ejecuta el método para agregar el costo del alquiler
-                    A.AgregoCosto(A, VehiculosAUX, ListaAlquileres, out ejecutando);
-                    if (ejecutando)
-                        break;
+                    A.AgregoCosto(A);
+
+                    //Se ejecuta el método para confirmar el alquiler
+                    A.ConfirmarAlquiler(A, ListaAlquileres);
                 }
                 catch
                 {
@@ -143,7 +198,7 @@ namespace Segundo_Obligatorio
         public void AgregoVehiculo(Alquiler A,ArrayList VehiculosAUX,ArrayList ListaAlquileres, out bool ejecutando)
         {
             //Creación de un loop para que se vuelva a pedir la matrícula en caso de que se ingrese una que no es válida
-            ejecutando = true;
+            ejecutando = false;
             bool ejecutando2 = true;
             while (ejecutando2)
             {
@@ -169,14 +224,8 @@ namespace Segundo_Obligatorio
                     //Si se encontró el vehículo se piden las fechas en las cuales se quiere realizar el alquiler
                     else
                     {
-                        A.AgregoFechas(A, VehiculosAUX, ListaAlquileres, out ejecutando);
-                        if (!ejecutando)
-                        {
-                            A.vehiculo = vehiculoingresado;
-                            ejecutando2 = false;
-                        }
-                        else
-                            ejecutando2 = false;
+                        A.vehiculo = vehiculoingresado;
+                        ejecutando2 = false;
                     }
                 }
             }
@@ -185,100 +234,152 @@ namespace Segundo_Obligatorio
         public void AgregoFechas(Alquiler A, ArrayList VehiculosAUX, ArrayList ListaAlquileres, out bool ejecutando)
         {
             //Creación de un loop para pedir de nuevo las fechas en caso de ingresar fechas no válidas
-            ejecutando = true;
+            ejecutando = false;
             bool ejecutando2 = true;
             while (ejecutando2)
             {
                 //Se pide el ingreso de la fecha de inicio del alquiler
                 Console.Write("\nIngrese la fecha de inicio del alquiler (DD/MM/AAA) o presione 'S' para salir: ");
                 string fechainiingresada = Console.ReadLine();
-                //Si se presionó S se sale de esta opción
                 if (Cliente.presionarS(fechainiingresada))
                 {
                     ejecutando2 = false;
                     ejecutando = true;
                     break;
                 }
+
+                //Se intenta convertir la fecha ingresada por el usuario en un formato de fecha válido
+                DateTime fechaini;
+                bool esfechaini = DateTime.TryParse(fechainiingresada, out fechaini);
+                //Si no se pudo convertir se muestra el mensaje de error
+                if (!esfechaini)
+                {
+                    Console.Write("\nERROR - La fecha ingresada no es válida.\n");
+                }
                 else
                 {
-                    //Se intenta convertir la fecha ingresada por el usuario en un formato de fecha válido
-                    DateTime fechaini;
-                    bool esfechaini = DateTime.TryParse(fechainiingresada, out fechaini);
-                    if (esfechaini)
+                    bool ejecutando3 = true;
+                    while (ejecutando3)
                     {
-                        //Si se pudo convertir a una fecha válida se intenta guardar el dato
-                        try
+                        //Se pide el ingreso de la fecha de fin del alquiler
+                        Console.Write("\nIngrese la fecha de fin del alquiler (DD/MM/AAA) o presione 'S' para salir: ");
+                        string fechafiningresada = Console.ReadLine();
+                        if (Cliente.presionarS(fechafiningresada))
                         {
-                            A.Fecha_inicio = fechaini;
                             ejecutando2 = false;
+                            ejecutando3 = false;
+                            ejecutando = true;
+                            break;
                         }
-                        //En caso de existir algún error como haber ingresado una fecha anterior a hoy se muestra el error correspondiente
-                        catch (Exception error)
-                        {
-                            Console.WriteLine(error.Message);
-                        }
-                    }
-                    //Si no se ingresó una fecha válida se muestra el error
-                    else
-                    {
-                        Console.Write("\nERROR - La fecha ingresada no es válida.\n");
-                    }
-                }
-            }
-            
-            if (A.fecha_inicio > Convert.ToDateTime("01/01/0001"))
-            {
-                bool ejecutando3 = true;
-                while (ejecutando3)
-                {
-                    //Se pide el ingreso de la fecha de fin del alquiler
-                    Console.Write("\nIngrese la fecha de fin del alquiler (DD/MM/AAA) o presione 'S' para salir: ");
-                    string fechafiningresada = Console.ReadLine();
-                    //Si se presionó S se sale de esta opción
-                    if (Cliente.presionarS(fechafiningresada))
-                    {
-                        ejecutando3 = false;
-                        ejecutando = true;
-                        break;
-                    }
-                    else
-                    {
+
                         //Se intenta convertir la fecha ingresada por el usuario en un formato de fecha válido
                         DateTime fechafin;
                         bool esfechafin = DateTime.TryParse(fechafiningresada, out fechafin);
-                        if (esfechafin)
+                        //Si no se pudo convertir se muestra el mensaje de error
+                        if (!esfechafin)
                         {
-                            //Si se pudo convertir a una fecha válida se intenta guardar el dato
-                            try
-                            {
-                                A.Fecha_fin = fechafin;
-                                ejecutando3 = false;
-                                ejecutando = false;
-                            }
-                            //En caso de existir algún error como haber ingresado una fecha anterior a hoy se muestra el error correspondiente
-                            catch (Exception error)
-                            {
-                                Console.WriteLine(error.Message);
-                            }
+                            Console.Write("\nERROR - La fecha ingresada no es válida.\n");
                         }
-                        //Si no se ingresó una fecha válida se muestra el error
                         else
                         {
-                            Console.Write("\nERROR - La fecha ingresada no es válida.");
+                            ejecutando3 = false;
+                            if (A.VerificoFechas(A, VehiculosAUX, fechaini, fechafin))
+                                ejecutando2 = false;
+                            else
+                                ejecutando2 = true;                            
                         }
                     }
                 }
             }
         }
 
-        public void AgregoCosto(Alquiler A,ArrayList VehiculosAUX,ArrayList ListaAlquileres, out bool ejecutando)
+
+        public bool VerificoFechas(Alquiler A, ArrayList VehiculosAUX, DateTime fechaini, DateTime fechafin)
         {
-            ejecutando = false;
+            if (fechafin.Date<fechaini.Date)
+            {
+                Console.Write("\nERROR - La fecha final no puede ser menor a la fecha inicial.\n");
+                return false;
+            }
+            else if (fechafin == fechaini)
+            {
+                Console.Write("\nERROR - El alquiler debe ser de mínimo 1 día de duración.\n");
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    A.Fecha_inicio = fechaini;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error.Message);
+                    return false;
+                }
+                try
+                {
+                    A.fecha_fin = fechafin;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error.Message);
+                    return false;
+                }
+                return true;
+            }
         }
 
 
+        public void AgregoCosto(Alquiler A)
+        {
+            int duracion = (A.fecha_fin - A.fecha_inicio).Days;
+            try
+            {
+                A.Costo = duracion * A.Vehiculo.Costo_diario;
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error.Message);
+                Console.ReadLine();
+            }
+        }
 
+        //Método para confirmar el alquiler
+        public void ConfirmarAlquiler(Alquiler A, ArrayList ListaAlquileres)
+        {
+            Console.Clear();
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("            CONFIRMAR ALQUILER");
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("DATOS DEL CLIENTE");
+            Cliente.MostrarCliente(A.Cliente);
+            Console.WriteLine("DATOS DEL VEHÍCULO");
+            //*******************************************************************
+            // ACA SE LLAMA AL MÉTODO QUE MUESTRA LOS DATOS DEL VEHÍCULO, EL CUAL HAY QUE DESARROLLAR
+            //*******************************************************************
+            //Vehiculo.MostrarVehiculo(A.Vehiculo);
+            Console.WriteLine("DATOS DEL ALQUILER");
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("Código: \t\t{0}", A.Codigo);
+            Console.WriteLine("Fecha inicio: \t\t{0}", A.Fecha_inicio.ToShortDateString());
+            Console.WriteLine("Fecha fin: \t\t{0}", A.Fecha_fin.ToShortDateString());
+            Console.WriteLine("Costo total: \t\t{0}", A.Costo);
+            Console.WriteLine("*********************************************");
 
-
+            Console.Write("\n¿Confirma el ingreso del alquiler con los datos anteriores? <S/N> : ");
+            string opcion = Console.ReadLine();
+            if (Cliente.presionarS(opcion))
+            {
+                ListaAlquileres.Add(A);
+                Console.Write("\nAlquiler ingresado con éxito.");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.Write("\nNo se ingresó el alquiler a la base de datos.");
+                Console.ReadLine();
+            }
+        }
     }
 }
