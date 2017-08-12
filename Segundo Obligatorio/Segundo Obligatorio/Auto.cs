@@ -18,19 +18,45 @@ namespace Segundo_Obligatorio
             set {anclaje = value; }
         }
 
-        //Método para agredar anclaje
+        //Método para agregar anclaje
         public void AgregoAnclaje(Auto V, out bool ejecutando)
         {
-            //Se pide marca
-            Console.Write("\nIngrese la marca o presione 'S' para salir: ");
-            string anclajeingresado = Console.ReadLine();
-            if (Cliente.presionarS(anclajeingresado))
-                ejecutando = true;
-            else
+            //Se pide el anclaje
+            Console.Write("\nIngrese el tipo de anclaje o presione 'S' para salir: ");
+            Console.Write("\n1 - Cinturón");
+            Console.Write("\n2 - ISOFIX");
+            Console.Write("\n3 - Latch");
+            Console.WriteLine();
+
+            bool ejecutando2 = true;
+            while (ejecutando2)
             {
-                V.Anclaje = anclajeingresado;
-                ejecutando = false;
+                string anclajeingresado = Console.ReadLine();
+                if (Cliente.presionarS(anclajeingresado))
+                    ejecutando = true;
+                else
+                {
+                    switch (anclajeingresado)
+                    {
+                        case "1":
+                            V.Anclaje = "Cinturón";
+                            ejecutando2 = false;
+                            break;
+                        case "2":
+                            V.Anclaje = "ISOFIX";
+                            ejecutando2 = false;
+                            break;
+                        case "3":
+                            V.Anclaje = "Latch";
+                            ejecutando2 = false;
+                            break;
+                        default:
+                            Console.WriteLine("Ingrese valor dentro de las opciones");
+                            break;
+                    }
+                }
             }
+            ejecutando = false;
         }
 
 
@@ -39,6 +65,13 @@ namespace Segundo_Obligatorio
             : base(pmatricula, pmarca, pmodelo, panio, pcant_puertas, pcosto_diario)
         {
             Anclaje = panclaje;
+        }
+
+        //Constructor común
+         public Auto(string pmatricula)
+            : base(pmatricula)
+        {
+            Matricula = pmatricula;
         }
 
 
@@ -52,10 +85,10 @@ namespace Segundo_Obligatorio
                 Console.Clear();
                 Console.WriteLine("*********************************************");
                 Console.WriteLine("            Mantenimiento de Autos");
-                Console.WriteLine("\n********************************************* \n");
+                Console.WriteLine("\n*********************************************");
 
                 //Se pide el número de matricula y se da la opción de volver al menú principal
-                Console.Write("Ingrese el número matrícula(3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
+                Console.Write("Ingrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
                 string matriculaingresada = Console.ReadLine();     
                                
                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
@@ -71,7 +104,6 @@ namespace Segundo_Obligatorio
                         if (Cliente.presionarS(Console.ReadLine()))
                         {
                             //Si se quiere añadir al auto, se ejecuta el método para añadirlo
-                            //===============================>>>>>> Este metodo tendria que cambiarlo por agrego auto o extenderlo del vehículo. Tengo que averiguar como se hace.
                             AgregoAuto(matriculaingresada, ListaVehiculos);
 
                         }
@@ -96,7 +128,7 @@ namespace Segundo_Obligatorio
                 try
                 {
                     //Se crea el vehículo con la matricula ingresada
-                    Vehiculo V = new Vehiculo(matriculaingresada);
+                    Auto V = new Auto(matriculaingresada);
 
                     //Se ejecuta el método para agregar la marca del vehiculo
                     V.AgregoMarca(V, out ejecutando);
@@ -118,12 +150,12 @@ namespace Segundo_Obligatorio
                     if (ejecutando)
                         break;
 
-                    //Se ejecuta el método para agregar la costo
+                    //Se ejecuta el método para agregar el costo
                     V.AgregoCosto_Diario(V, out ejecutando);
                     if (ejecutando)
                         break;
 
-                    //Se ejecuta el método para agregar la costo
+                    //Se ejecuta el método para agregar el anclaje
                     V.AgregoAnclaje(V, out ejecutando);
                     if (ejecutando)
                         break;
@@ -132,21 +164,9 @@ namespace Segundo_Obligatorio
                     Console.Clear();
                     Console.WriteLine("*********************************************");
                     Console.WriteLine("            Mantenimiento de Autos");
-                    Console.WriteLine("\n********************************************* \n");
 
                     V.MostrarVehiculo(V);
 
-
-                    /*
-                    Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
-                    Console.WriteLine("\nMatrícula: \t\t\t{0}", V.Matricula);
-                    Console.WriteLine("\nModelo: \t\t\t{0}", V.Modelo);
-                    Console.WriteLine("\nMarca: \t\t\t\t{0}", V.Marca);
-                    Console.WriteLine("\nAño: \t\t\t\t{0}", V.Anio);
-                    Console.WriteLine("\nCantidad de pueras: \t\t{0}", V.cant_puertas);
-                    Console.WriteLine("\nCosto diario: \t\t\t{0}", V.costo_diario);
-
-                     */
 
                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                     string opcion = Console.ReadLine();

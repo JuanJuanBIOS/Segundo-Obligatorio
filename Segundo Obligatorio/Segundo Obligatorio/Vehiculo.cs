@@ -91,7 +91,7 @@ namespace Segundo_Obligatorio
         public void AgregoMarca(Vehiculo V, out bool ejecutando)
         {
             //Se pide marca
-            Console.Write("\nIngrese la marca o presione 'S' para salir: ");
+            Console.Write("\nIngrese la Marca o presione 'S' para salir: ");
             string marcaingresada = Console.ReadLine();
             if (Cliente.presionarS(marcaingresada))
                 ejecutando = true;
@@ -106,7 +106,7 @@ namespace Segundo_Obligatorio
         public void AgregoModelo(Vehiculo V, out bool ejecutando)
         {
             //Se pide modelo
-            Console.Write("\nIngrese el modelo o presione 'S' para salir: ");
+            Console.Write("\nIngrese el Modelo o presione 'S' para salir: ");
             string modeloingresado = Console.ReadLine();
             if (Cliente.presionarS(modeloingresado))
                 ejecutando = true;
@@ -126,7 +126,7 @@ namespace Segundo_Obligatorio
             while (ejecutando2)
             {
                 //Se pide el año del vehículo
-                Console.Write("\nIngrese el año del vehículo o presione 'S' para salir: ");
+                Console.Write("\nIngrese el Año del vehículo o presione 'S' para salir: ");
                 string anioingresado = Console.ReadLine();
                 if (Cliente.presionarS(anioingresado))
                 {
@@ -147,7 +147,7 @@ namespace Segundo_Obligatorio
         public void AgregoCant_puertas(Vehiculo V, out bool ejecutando)
         {
             //Se pide cantidad de puerta
-            Console.Write("\nIngrese la cantidad de puertas o presione 'S' para salir: ");
+            Console.Write("\nIngrese la Cantidad de puertas o presione 'S' para salir: ");
             string cantidaddepuertas = Console.ReadLine();
             if (Cliente.presionarS(cantidaddepuertas))
                 ejecutando = true;
@@ -162,7 +162,7 @@ namespace Segundo_Obligatorio
         public void AgregoCosto_Diario(Vehiculo V, out bool ejecutando)
         {
             //Se pide modelo
-            Console.Write("\nIngrese el costo diario del vehiculo 'S' para salir: ");
+            Console.Write("\nIngrese el Costo diario del vehiculo 'S' para salir: ");
             string costoingresado = Console.ReadLine();
             if (Cliente.presionarS(costoingresado))
                 ejecutando = true;
@@ -207,7 +207,7 @@ namespace Segundo_Obligatorio
             return null;
         }
 
-
+/*
         //Método para agregar Vehiculo
         public static void AgregoVehiculo(string matriculaingresada, ArrayList ListaVehiculo)
         {
@@ -285,7 +285,7 @@ namespace Segundo_Obligatorio
             }
         }
 
-
+*/
         //Metodo mostrar Vehiculo
         public void MostrarVehiculo(Vehiculo buscado)
         {
@@ -318,8 +318,8 @@ namespace Segundo_Obligatorio
                 Console.WriteLine("\nAño: \t\t\t\t{0}", utilitariobuscado.Anio);
                 Console.WriteLine("\nCantidad de pueras: \t\t{0}", utilitariobuscado.Cant_puertas);
                 Console.WriteLine("\nCosto diario: \t\t\t{0}", utilitariobuscado.Costo_diario);
-                Console.WriteLine("\nTipo: \t\t\t{0}", utilitariobuscado.Tipo);
-                Console.WriteLine("\nCapacidad de carga: \t\t\t{0}", utilitariobuscado.Capacidad);
+                Console.WriteLine("\nTipo: \t\t\t\t{0}", utilitariobuscado.Tipo);
+                Console.WriteLine("\nCapacidad de carga: \t\t{0}", utilitariobuscado.Capacidad);
                 Console.WriteLine("*********************************************");
             }
         }
