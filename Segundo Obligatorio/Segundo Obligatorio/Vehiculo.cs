@@ -294,22 +294,23 @@ namespace Segundo_Obligatorio
                 //Down-cast de vehículo a auto
                 Auto autobuscado = (Auto)buscado;
 
-                Console.WriteLine("\n*********************************************");
-                Console.WriteLine("Los datos ingresados para el auto son los siguientes: ");
-                Console.WriteLine("\nMatrícula: \t\t\t{0}", autobuscado.Matricula);
-                Console.WriteLine("\nModelo: \t\t\t{0}", autobuscado.Modelo);
-                Console.WriteLine("\nMarca: \t\t\t\t{0}", autobuscado.Marca);
-                Console.WriteLine("\nAño: \t\t\t\t{0}", autobuscado.Anio);
-                Console.WriteLine("\nCantidad de pueras: \t\t{0}", autobuscado.Cant_puertas);
-                Console.WriteLine("\nCosto diario: \t\t\t{0}", autobuscado.Costo_diario);
-                Console.WriteLine("\nAnclaje: \t\t\t{0}", autobuscado.Anclaje);
-                Console.WriteLine("*********************************************");
+                //Console.WriteLine("\n*********************************************");
+                //Console.WriteLine("\nLos datos ingresados para el auto son los siguientes: ");
+                Console.WriteLine("Matrícula: \t\t\t{0}", autobuscado.Matricula);
+                Console.WriteLine("Modelo: \t\t\t{0}", autobuscado.Modelo);
+                Console.WriteLine("Marca: \t\t\t\t{0}", autobuscado.Marca);
+                Console.WriteLine("Año: \t\t\t\t{0}", autobuscado.Anio);
+                Console.WriteLine("Cantidad de pueras: \t\t{0}", autobuscado.Cant_puertas);
+                Console.WriteLine("Costo diario: \t\t\t{0}", autobuscado.Costo_diario);
+                Console.WriteLine("Anclaje: \t\t\t{0}", autobuscado.Anclaje);
+                //Console.WriteLine("*********************************************");
             }
             else
             {
                 //Down-cast de vehículo a utilitario
                 Utilitario utilitariobuscado = (Utilitario)buscado;
 
+<<<<<<< HEAD
                 Console.WriteLine("\n*********************************************");
                 Console.WriteLine("Los datos ingresados para el utilitario son los siguientes: ");
                 Console.WriteLine("\nMatrícula: \t\t\t{0}", utilitariobuscado.Matricula);
@@ -321,6 +322,19 @@ namespace Segundo_Obligatorio
                 Console.WriteLine("\nTipo: \t\t\t\t{0}", utilitariobuscado.Tipo);
                 Console.WriteLine("\nCapacidad de carga: \t\t{0}", utilitariobuscado.Capacidad);
                 Console.WriteLine("*********************************************");
+=======
+                //Console.WriteLine("\n*********************************************");
+                //Console.WriteLine("\nLos datos ingresados para el utilitario son los siguientes: ");
+                Console.WriteLine("Matrícula: \t\t\t{0}", utilitariobuscado.Matricula);
+                Console.WriteLine("Modelo: \t\t\t{0}", utilitariobuscado.Modelo);
+                Console.WriteLine("Marca: \t\t\t\t{0}", utilitariobuscado.Marca);
+                Console.WriteLine("Año: \t\t\t\t{0}", utilitariobuscado.Anio);
+                Console.WriteLine("Cantidad de pueras: \t\t{0}", utilitariobuscado.Cant_puertas);
+                Console.WriteLine("Costo diario: \t\t\t{0}", utilitariobuscado.Costo_diario);
+                Console.WriteLine("Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
+                Console.WriteLine("Capacidad de carga: \t\t\t{0}", utilitariobuscado.Capacidad);
+                //Console.WriteLine("*********************************************");
+>>>>>>> fc8e51f5b9232de1808f2541431c21f89ec41c54
             }
         }
     }

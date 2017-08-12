@@ -11,8 +11,8 @@ namespace Segundo_Obligatorio
         //Definición de atributos
         private string documento; //Se define el documento como string porque puede ser un pasaporte que contiene letras o cédulas extranjeras que contienen letras
         private string nombre;
-        private string tarjeta;  //Se define la tarjeta como string porque puede empezar con ceros y además no se necesita operar con el número de tarjeta
-        private string telefono; //Se define el teléfono como string porque puede empezar con ceros y además no se necesita operar con el número de teléfono
+        private string tarjeta;  //Se define la tarjeta como string porque puede empezar con ceros
+        private string telefono; //Se define el teléfono como string porque puede empezar con ceros
         private string direccion;
         private DateTime fecha_nac;
 
@@ -54,7 +54,7 @@ namespace Segundo_Obligatorio
             get { return telefono; }
             set 
             {
-                //Se verifica que el número de telefono ingresado cuente con al menos 6 caracteres y que sea un número mayor a cero
+                //Se verifica que el número de telefono ingresado cuente con al menos 8 caracteres y que sea un número mayor a cero
                 if (value.Length > 7 && Convert.ToInt64(value) > 0)
                     telefono = value;
                 else
@@ -613,14 +613,14 @@ namespace Segundo_Obligatorio
         //Método para mostrar los datos de un cliente
         public void MostrarCliente(Cliente buscado)
         {
-            Console.WriteLine("\n*********************************************");
+            //Console.WriteLine("*********************************************");
             Console.WriteLine("\nDocumento: \t\t{0}", buscado.documento);
             Console.WriteLine("Nombre: \t\t{0}", buscado.nombre);
             Console.WriteLine("Nº de tarjeta: \t\t{0}", buscado.tarjeta);
             Console.WriteLine("Teléfono: \t\t{0}", buscado.telefono);
             Console.WriteLine("Dirección: \t\t{0}", buscado.direccion);
             Console.WriteLine("Fecha de nacimiento: \t{0}", buscado.fecha_nac.ToShortDateString());
-            Console.WriteLine("*********************************************");
+            //Console.WriteLine("*********************************************");
         }
     }
 }
