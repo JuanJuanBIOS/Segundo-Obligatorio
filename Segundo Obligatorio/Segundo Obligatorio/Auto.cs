@@ -76,7 +76,7 @@ namespace Segundo_Obligatorio
 
 
         //Método Mantenimineto de Autos
-         public static void MantenimientoAutos(ArrayList ListaVehiculos)
+         public static void MantenimientoAutos(ArrayList ListaVehiculos, ArrayList ListaAlquileres)
          {
              // Creación de un loop para que se siga ejecutando el menú mantenimiento de autos
              bool ejecutando = true;
@@ -135,8 +135,8 @@ namespace Segundo_Obligatorio
                          else
                          {
                              //Si se encontró el auto se muestran los datos y se pregunta qué se quiere hacer, si eliminarlo o modificarlo
-                             Vehiculo encontrado = (Auto)encontrado;
-                             encontrado = BuscoVehiculo(matriculaingresada, ListaVehiculos);
+                             Auto encontrado = (Auto)Vehiculo.BuscoVehiculo(matriculaingresada, ListaVehiculos);
+
                              Console.WriteLine("\nEl Auto ya se encuentra en la base de datos.");
                              Console.WriteLine("Los datos del Auto ingresado son los siguientes: ");
                              encontrado.MostrarVehiculo(encontrado);
@@ -165,7 +165,7 @@ namespace Segundo_Obligatorio
                                  {
                                      //Si se seleccionó la opción para modificar los datos del cliente se llama al método para hacerlo
                                      case 1:
-                                         encontrado.ModificarAuto(encontrado, ListaVehiculos);
+                                         //encontrado.ModificarAuto(encontrado, ListaVehiculos, ListaAlquileres);
                                          ejecutando2 = false;
                                          break;
                                      //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo

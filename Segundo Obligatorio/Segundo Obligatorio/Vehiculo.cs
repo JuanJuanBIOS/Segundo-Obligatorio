@@ -348,7 +348,7 @@ namespace Segundo_Obligatorio
             else
             {
                 Console.Write("\n¿Confirma que desea eliminar el vehiculo? <S/N>: ");
-                if (presionarS(Console.ReadLine()))
+                if (Cliente.presionarS(Console.ReadLine()))
                 {
                     ListaVehiculos.Remove(encontrado);
                     Console.Write("\nSe ha eliminado el Vehículo.");
