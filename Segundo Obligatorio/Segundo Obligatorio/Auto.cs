@@ -124,9 +124,9 @@ namespace Segundo_Obligatorio
                         break;
 
                     //Se ejecuta el método para agregar la costo
-                    V.AgregoAnclaje(V, out ejecutando);
-                    if (ejecutando)
-                        break;
+                    //V.AgregoAnclaje(V, out ejecutando);
+                    //if (ejecutando)
+                        //break;
 
 
                     Console.Clear();

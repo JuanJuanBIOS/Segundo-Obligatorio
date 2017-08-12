@@ -15,6 +15,7 @@ namespace Segundo_Obligatorio
         private DateTime fecha_fin;
         private double costo;
         private int codigo;
+        private static int secuencial;
 
         //Definición de propiedades
         public Vehiculo Vehiculo
@@ -138,7 +139,7 @@ namespace Segundo_Obligatorio
                         break;
                     else
                     {
-                        //Si no se presionó "S" se busca al cliente para comprobar si que existe en la base de datos
+                        //Si no se presionó "S" se busca al cliente para comprobar si existe en la base de datos
                         Cliente arrendador = Cliente.BuscoCliente(documentoingresado, ListaClientes);
                         if (arrendador == null)
                         {
@@ -179,7 +180,7 @@ namespace Segundo_Obligatorio
                         break;
 
                     //Se ejecuta el método para agregar el costo del alquiler
-                    A.AgregoCosto(A);
+                    A.CalculoCosto(A);
 
                     //Se ejecuta el método para confirmar el alquiler
                     A.ConfirmarAlquiler(A, ListaAlquileres);
@@ -283,7 +284,7 @@ namespace Segundo_Obligatorio
                         else
                         {
                             ejecutando3 = false;
-                            if (A.VerificoFechas(A, VehiculosAUX, fechaini, fechafin))
+                            if (A.VerificoFechas(A, ListaAlquileres, VehiculosAUX, fechaini, fechafin))
                                 ejecutando2 = false;
                             else
                                 ejecutando2 = true;                            
@@ -294,7 +295,7 @@ namespace Segundo_Obligatorio
         }
 
 
-        public bool VerificoFechas(Alquiler A, ArrayList VehiculosAUX, DateTime fechaini, DateTime fechafin)
+        public bool VerificoFechas(Alquiler A, ArrayList ListaAlquileres, ArrayList VehiculosAUX, DateTime fechaini, DateTime fechafin)
         {
             if (fechafin.Date<fechaini.Date)
             {
@@ -308,6 +309,7 @@ namespace Segundo_Obligatorio
             }
             else
             {
+                
                 try
                 {
                     A.Fecha_inicio = fechaini;
@@ -330,8 +332,25 @@ namespace Segundo_Obligatorio
             }
         }
 
+        public bool VehiculoAlquilado(Alquiler A, ArrayList ListaAlquileres, DateTime fechaini, DateTime fechafin)
+        {
+            foreach (Alquiler Alq in ListaAlquileres)
+            {
+                if (Alq.Vehiculo == A.Vehiculo)
+                {
+                    if (fechaini >= Alq.Fecha_fin || fechafin <= Alq.Fecha_inicio)
+                    {
+                        return false;
+                    }
+                    
+                    return true;
+                }
+            }
+            return true;
+        }
 
-        public void AgregoCosto(Alquiler A)
+
+        public void CalculoCosto(Alquiler A)
         {
             int duracion = (A.fecha_fin - A.fecha_inicio).Days;
             try
@@ -354,18 +373,15 @@ namespace Segundo_Obligatorio
             Console.WriteLine("*********************************************");
             Console.WriteLine("DATOS DEL CLIENTE");
             Cliente.MostrarCliente(A.Cliente);
-            Console.WriteLine("DATOS DEL VEHÍCULO");
-            //*******************************************************************
-            // ACA SE LLAMA AL MÉTODO QUE MUESTRA LOS DATOS DEL VEHÍCULO, EL CUAL HAY QUE DESARROLLAR
-            //*******************************************************************
-            //Vehiculo.MostrarVehiculo(A.Vehiculo);
-            Console.WriteLine("DATOS DEL ALQUILER");
-            Console.WriteLine("*********************************************");
-            Console.WriteLine("Código: \t\t{0}", A.Codigo);
+            Console.WriteLine("\nDATOS DEL VEHÍCULO");
+            Vehiculo.MostrarVehiculo(A.Vehiculo);
+            Console.WriteLine("\nDATOS DEL ALQUILER");
+            //Console.WriteLine("*********************************************");
+            Console.WriteLine("\nCódigo: \t\t{0}", A.Codigo);
             Console.WriteLine("Fecha inicio: \t\t{0}", A.Fecha_inicio.ToShortDateString());
             Console.WriteLine("Fecha fin: \t\t{0}", A.Fecha_fin.ToShortDateString());
             Console.WriteLine("Costo total: \t\t{0}", A.Costo);
-            Console.WriteLine("*********************************************");
+            //Console.WriteLine("*********************************************");
 
             Console.Write("\n¿Confirma el ingreso del alquiler con los datos anteriores? <S/N> : ");
             string opcion = Console.ReadLine();
