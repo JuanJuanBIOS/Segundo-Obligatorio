@@ -15,7 +15,7 @@ namespace Segundo_Obligatorio
         private DateTime fecha_fin;
         private double costo;
         private int codigo;
-        private static int secuencial;
+        private static int secuencial = 0;
 
         //Definición de propiedades
         public Vehiculo Vehiculo
@@ -82,6 +82,12 @@ namespace Segundo_Obligatorio
         {
             get { return codigo; }
             set { codigo = value; }
+        }
+
+        public int Secuencial
+        {
+            get { return secuencial; }
+            set { secuencial = value; }
         }
 
 
@@ -284,6 +290,7 @@ namespace Segundo_Obligatorio
                         else
                         {
                             ejecutando3 = false;
+                            //Si los formatos de fechas con correctos se hace la verificación de las mismas
                             if (A.VerificoFechas(A, ListaAlquileres, VehiculosAUX, fechaini, fechafin))
                                 ejecutando2 = false;
                             else
@@ -294,14 +301,16 @@ namespace Segundo_Obligatorio
             }
         }
 
-
+        //Método para verificar las fechas ingresadas de alquiler
         public bool VerificoFechas(Alquiler A, ArrayList ListaAlquileres, ArrayList VehiculosAUX, DateTime fechaini, DateTime fechafin)
         {
-            if (fechafin.Date<fechaini.Date)
+            //Se comprueba que la fecha final no sea menor a la fecha inicial
+            if (fechafin.Date < fechaini.Date)
             {
                 Console.Write("\nERROR - La fecha final no puede ser menor a la fecha inicial.\n");
                 return false;
             }
+            //Se comprueba que el alquiler tenga una duración mínima de 1 día
             else if (fechafin == fechaini)
             {
                 Console.Write("\nERROR - El alquiler debe ser de mínimo 1 día de duración.\n");
@@ -309,50 +318,65 @@ namespace Segundo_Obligatorio
             }
             else
             {
-                
-                try
+                //Si pasa las verificaciones anteriores se verifica que el vehículo no se encuentre alquilado en las fechas seleccionadas
+                if (A.VehiculoAlquilado(A, ListaAlquileres, fechaini, fechafin))
                 {
-                    A.Fecha_inicio = fechaini;
-                }
-                catch (Exception error)
-                {
-                    Console.WriteLine(error.Message);
                     return false;
                 }
-                try
+                else
                 {
-                    A.fecha_fin = fechafin;
-                }
-                catch (Exception error)
-                {
-                    Console.WriteLine(error.Message);
-                    return false;
-                }
-                return true;
-            }
-        }
-
-        public bool VehiculoAlquilado(Alquiler A, ArrayList ListaAlquileres, DateTime fechaini, DateTime fechafin)
-        {
-            foreach (Alquiler Alq in ListaAlquileres)
-            {
-                if (Alq.Vehiculo == A.Vehiculo)
-                {
-                    if (fechaini >= Alq.Fecha_fin || fechafin <= Alq.Fecha_inicio)
+                    //Si las fechas pasaron todos los controles anteriores se agregan al alquiler
+                    try
                     {
+                        A.Fecha_inicio = fechaini;
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
                         return false;
                     }
-                    
+                    try
+                    {
+                        A.fecha_fin = fechafin;
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                        return false;
+                    }
                     return true;
                 }
             }
-            return true;
         }
 
+        //Método para verificar si el vehículo está alquilado
+        public bool VehiculoAlquilado(Alquiler A, ArrayList ListaAlquileres, DateTime fechaini, DateTime fechafin)
+        {
+            //Se busca en la lista de alquileres
+            foreach (Alquiler Alq in ListaAlquileres)
+            {
+                //Se compara el vehículo que se quiere alquilar con el vehículo de cada alquiler
+                if (Alq.Vehiculo == A.Vehiculo)
+                {
+                    //Si el vehículo coincide y las fechas se solapan se muestra el error correspondiente
+                    if (fechaini <= Alq.Fecha_fin && fechafin >= Alq.Fecha_inicio)
+                    {
+                        Console.Write("\nERROR - El vehículo se encuentra alquilado entre el {0} y el {1}.\n", Alq.Fecha_inicio.ToShortDateString(), Alq.Fecha_fin.ToShortDateString());
+                        return true;
+                    }
+                }
+                else
+                    return false;
+            }
+            return false;
+        }
 
+        //Método para calcular costo del alquiler
         public void CalculoCosto(Alquiler A)
         {
+            //Se calcula la duración en días del alquiler
             int duracion = (A.fecha_fin - A.fecha_inicio).Days;
+            //Se carga el costo del alquiler multiplicando el costo diario por la cantidad de días
             try
             {
                 A.Costo = duracion * A.Vehiculo.Costo_diario;
@@ -367,34 +391,143 @@ namespace Segundo_Obligatorio
         //Método para confirmar el alquiler
         public void ConfirmarAlquiler(Alquiler A, ArrayList ListaAlquileres)
         {
+            //Se despliegan todos los datos del alquiler en pantalla
             Console.Clear();
             Console.WriteLine("*********************************************");
             Console.WriteLine("            CONFIRMAR ALQUILER");
             Console.WriteLine("*********************************************");
             Console.WriteLine("DATOS DEL CLIENTE");
             Cliente.MostrarCliente(A.Cliente);
-            Console.WriteLine("\nDATOS DEL VEHÍCULO");
+            Console.WriteLine("\nDATOS DEL VEHÍCULO\n");
             Vehiculo.MostrarVehiculo(A.Vehiculo);
             Console.WriteLine("\nDATOS DEL ALQUILER");
-            //Console.WriteLine("*********************************************");
-            Console.WriteLine("\nCódigo: \t\t{0}", A.Codigo);
             Console.WriteLine("Fecha inicio: \t\t{0}", A.Fecha_inicio.ToShortDateString());
             Console.WriteLine("Fecha fin: \t\t{0}", A.Fecha_fin.ToShortDateString());
-            Console.WriteLine("Costo total: \t\t{0}", A.Costo);
-            //Console.WriteLine("*********************************************");
-
+            Console.WriteLine("Costo total: \t\t${0}", A.Costo);
+            //Se pregunta si se confirma el alquiler
             Console.Write("\n¿Confirma el ingreso del alquiler con los datos anteriores? <S/N> : ");
             string opcion = Console.ReadLine();
             if (Cliente.presionarS(opcion))
             {
+                //Si se confirma el alquiler se agrega a la lista de alquileres y se muestra el mensaje correpondiente
+                secuencial = secuencial + 1; 
+                //Se le asigna un código al alquiler recién confirmado el cual surge de sumarle 1 al secuencial
+                try
+                {
+                    A.Codigo = secuencial;
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error.Message);
+                    Console.ReadLine();
+                }
+                //Se agrega el alquiler y se muestra el mensaje indicando con qué código se agregó
                 ListaAlquileres.Add(A);
-                Console.Write("\nAlquiler ingresado con éxito.");
+                Console.Write("\nAlquiler ingresado con éxito con el código Nº {0}.", A.Codigo);
                 Console.ReadLine();
             }
             else
             {
+                //Si no se confirma el alquiler, no se agrega a la lista y se muestra el mensaje correpondiente
                 Console.Write("\nNo se ingresó el alquiler a la base de datos.");
                 Console.ReadLine();
+            }
+        }
+
+        //Método para mostrar el listado de vehículos alquilados en una determinada fecha
+        public static void VehiculosAlquilados(ArrayList ListaAlquileres)
+        {
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                Console.Clear();
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("       LISTADO DE VEHÍCULOS ALQUILADOS");
+                Console.WriteLine("*********************************************");
+
+                //Se pide el ingreso de la fecha para la cual se quiere hacer la consulta y se da la opción de presionar S para salir
+                Console.Write("\nIngrese la fecha que desea consultar (DD/MM/AAA) o presione 'S' para salir: ");
+                string fechaingresada = Console.ReadLine();
+                //Si se presionó S se sale de esta opción
+                if (Cliente.presionarS(fechaingresada))
+                {
+                    ejecutando = false;
+                }
+                else
+                {
+                    //Se intenta convertir la fecha ingresada por el usuario en un formato de fecha válido
+                    DateTime fecha;
+                    bool esfecha = DateTime.TryParse(fechaingresada, out fecha);
+                    if (esfecha)
+                    {
+                        //Si se pudo convertir a formato de fecha se busca en el listado de alquileres y se listan los vehículos alquilados en esa fecha
+                        Console.WriteLine("\nLos vehículos alquilados en la fecha consultada son los siguientes:\n");
+                        foreach (Alquiler A in ListaAlquileres)
+                        {
+                            if (fecha >= A.Fecha_inicio && fecha <= A.Fecha_fin)
+                            {
+                                if (A.Vehiculo is Auto)
+                                    Console.Write("Auto - ");
+                                else
+                                    Console.Write("Utilitario - ");
+
+                                Console.WriteLine("{0} - {1} {2} - {3} - Alquilado entre el {4} y el {5}\n", A.Vehiculo.Matricula, A.Vehiculo.Marca, A.Vehiculo.Modelo, A.Vehiculo.Anio, A.Fecha_inicio.ToShortDateString(), A.Fecha_fin.ToShortDateString());
+                            }
+                        }
+                        Console.ReadLine();
+                    }
+                    //Si no se ingresó una fecha válida se muestra el error
+                    else
+                    {
+                        Console.Write("\nERROR - La fecha ingresada no es válida.");
+                    }
+                }
+            }
+        }
+
+        //Método para mostrar la recaudación de un vechículo
+        public static void Recaudado(ArrayList ListaAlquileres, ArrayList VehiculosAUX)
+        {
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                Console.Clear();
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("       RECAUDACIÓN POR VEHÍCULO");
+                Console.WriteLine("*********************************************");
+
+                //Se pide el ingreso de la matrícula para la cual se quiere hacer la consulta y se da la opción de presionar S para salir
+                Console.Write("\nIngrese la matrícula que desea consultar o presione 'S' para salir: ");
+                string matriculaingresada = Console.ReadLine();
+                //Si se presionó S se sale de esta opción
+                if (Cliente.presionarS(matriculaingresada))
+                {
+                    ejecutando = true;
+                }
+                else
+                {
+                    //Se busca el vehículo en el listado de vehículos y si no se encuentra se muestra el error
+                    if (Vehiculo.BuscoVehiculo(matriculaingresada, VehiculosAUX) == null)
+                    {
+                        Console.Write("\nLa matrícula ingresada no se encuentra en la base de datos");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        //Si el vehículo se encuentra en el listado se recorre el listado de alquileres y se va sumando el importe correpondiente a ese vehículo
+                        double recaudacion = 0;
+                        foreach (Alquiler A in ListaAlquileres)
+                        {
+                            if (matriculaingresada == A.Vehiculo.Matricula)
+                            {
+                                recaudacion = recaudacion + A.Costo;
+                            }
+                        }
+                        //Se muestra lo total recaudado
+                        Console.Write("\nEl total recaudado por el vehículo ingresado es de $ {0}", recaudacion);
+                        Console.ReadLine();
+                    }
+                }
             }
         }
     }

@@ -66,9 +66,11 @@ namespace Segundo_Obligatorio
                         break;
                     case 5:
                         //Listado de vehiculos alquilados;
+                        Alquiler.VehiculosAlquilados(ListaAlquileres);
                         break;
                     case 6:
                         //Total recaudado por vehiculo;
+                        Alquiler.Recaudado(ListaAlquileres, VehiculosAUX);
                         break;
                     case 7:
                         ejecutando = false;
