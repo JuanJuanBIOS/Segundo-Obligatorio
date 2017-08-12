@@ -18,12 +18,24 @@ namespace Segundo_Obligatorio
             get { return tipo; }
             set { tipo = value; }
         }
-
+ 
         public double Capacidad
         {
             get { return capacidad; }
-            set { capacidad = value; }
+            set {
+
+                //Se verifica que la capacidad sea mayor que 0
+                if (value > 0)
+                {
+                    capacidad = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - La capacidad debe ser mayor a cero.");
+                }
+            }
         }
+
 
         //Método para agregar tipo
         public void AgregoTipo(Utilitario U, out bool ejecutando)
@@ -65,17 +77,37 @@ namespace Segundo_Obligatorio
         //Método para agregar Capacidad
         public void AgregoCapacidad(Utilitario U, out bool ejecutando)
         {
-            //Se pide capacidad
-            Console.Write("\nIngrese la Capacidad de carga en Kg del utilitario o presione 'S' para salir: ");
-            string tipoingresado = Console.ReadLine();
-            if (Cliente.presionarS(tipoingresado))
-                ejecutando = true;
-            else
+            //Creacion de un loop para volver a pedir la capacidad de carga en caso de error
+            ejecutando = true;
+            bool ejecutando2 = true;
+
+            while (ejecutando2)
             {
-                U.Tipo = tipoingresado;
-                ejecutando = false;
+                //Se pide capacidad
+                Console.Write("\nIngrese la Capacidad de carga en Kg del utilitario o presione 'S' para salir: ");
+                string capacidadingresada = Console.ReadLine();
+                if (Cliente.presionarS(capacidadingresada))
+                {
+                    ejecutando = true;
+                    ejecutando2 = false;
+                }
+                else
+                    try
+                    {
+                        U.Capacidad = Convert.ToInt32(capacidadingresada);
+                        ejecutando = false;
+                        ejecutando2 = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("\nERROR - Ingrese un valor numérico");
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
+                }
             }
-        }
 
 
         //Constructor completo
@@ -103,33 +135,57 @@ namespace Segundo_Obligatorio
                  Console.Clear();
                  Console.WriteLine("*********************************************");
                  Console.WriteLine("            Mantenimiento de Utilitarios");
-                 Console.WriteLine("\n*********************************************");
+                 Console.WriteLine("*********************************************");
 
-                 //Se pide el número de matricula y se da la opción de volver al menú principal
-                 Console.Write("Ingrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
-                 string matriculaingresada = Console.ReadLine();
 
-                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
-                 if (Cliente.presionarS(matriculaingresada))
-                     break;
-                 else
+
+                 //Creación de un loop para volver a ingresar matrícula si no es válida
+                 bool ejecutando2 = true;
+                 string matriculaingresada = "";
+
+                 while (ejecutando2)
                  {
-                     //Si no se presionó "S" se busca al auto para comprobar si ya fue ingresado
-                     if (BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
-                     {
-                         //Si no se encuentra en el listado de vehiculos, se pregunta si se quiere añadir
-                         Console.Write("\nEl vehiculo no se encuentra en la base de datos. ¿Desea agregarlo? <S/N>: ");
-                         if (Cliente.presionarS(Console.ReadLine()))
-                         {
-                             //Si se quiere añadir al auto, se ejecuta el método para añadirlo
-                             AgregoUtilitario(matriculaingresada, ListaVehiculos);
+                     //Se pide el número de matrícula y se da la opción de volver al menú principal
+                     Console.Write("\nIngrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
+                     string aux = Console.ReadLine();
 
-                         }
+                     if (Cliente.presionarS(aux))
+                     {
+                         ejecutando2 = false;
+                         ejecutando = false;
+
                      }
+
                      else
                      {
-                         Console.Write("\nEl utilitario ya se encuentra en la base de datos.");
-                         Console.ReadLine();
+
+                         try
+                         {
+                             Vehiculo test = new Vehiculo(aux);
+                             matriculaingresada = aux;
+                             ejecutando2 = false;
+
+                         }
+                         catch (Exception error)
+                         {
+                             Console.Write(error.Message);
+                         }
+                         //Si no se presionó "S" se busca al auto para comprobar si ya fue ingresado
+                         if (BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
+                         {
+                             //Si no se encuentra en el listado de vehiculos, se pregunta si se quiere añadir
+                             Console.Write("\nEl vehiculo no se encuentra en la base de datos. ¿Desea agregarlo? <S/N>: ");
+                             if (Cliente.presionarS(Console.ReadLine()))
+                             {
+                                 //Si se quiere añadir al auto, se ejecuta el método para añadirlo
+                                 AgregoUtilitario(matriculaingresada, ListaVehiculos);
+                             }
+                         }
+                         else
+                         {
+                             Console.Write("\nEl utilitario ya se encuentra en la base de datos.");
+                             Console.ReadLine();
+                         }
                      }
                  }
              }

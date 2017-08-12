@@ -62,27 +62,55 @@ namespace Segundo_Obligatorio
             get { return anio; }
             set
             {
-                try
+                //se verifica que el ano sea igual o menor al actual y mayor que 
+                if (value <= Convert.ToInt16((DateTime.Today).Year) && value > 0)
                 {
-                    anio = Convert.ToInt16(value);
+                    anio = value;
+
                 }
-                catch (Exception error)
+                else
                 {
-                    Console.WriteLine(error.Message);
+                    throw new Exception("\nERROR - El año debe ser igual o menor al año actual");
                 }
             }
         }
 
+
         public int Cant_puertas
         {
             get { return cant_puertas; }
-            set { cant_puertas = value; }
+            set
+            {
+                //Se verifica que la cantidad de puertas sea entre 1 y 5
+                
+
+                if (value < 6 && value > 0)
+                {
+                    cant_puertas = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - La cantidad de puertas debe ser entre 1 y 5.");
+                }
+            }
         }
+
 
         public double Costo_diario
         {
             get { return costo_diario; }
-            set { costo_diario = value; }
+            set
+            {
+                //Se verifica que el costo se mayor que 0
+                if (value > 0)
+                {
+                    costo_diario = value;
+                }
+                else
+                {
+                    throw new Exception("\nERROR - El costo diario debe ser mayor a cero.");
+                }
+            }
         }
 
 
@@ -134,44 +162,97 @@ namespace Segundo_Obligatorio
                     ejecutando = true;
                 }
                 else
-                {
-                    V.Anio = Convert.ToInt16(anioingresado);
-                    ejecutando2 = false;
-                    ejecutando = false;
+                    try
+                    {
+                        V.Anio = Convert.ToInt32(anioingresado);
+                        ejecutando2 = false;
+                        ejecutando = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("\nERROR - Ingrese un valor numérico.");
 
-                }
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
             }
         }
 
+        
+        
+        
         //Método para agregar Cantidad de puertas
         public void AgregoCant_puertas(Vehiculo V, out bool ejecutando)
         {
-            //Se pide cantidad de puerta
-            Console.Write("\nIngrese la Cantidad de puertas o presione 'S' para salir: ");
-            string cantidaddepuertas = Console.ReadLine();
-            if (Cliente.presionarS(cantidaddepuertas))
-                ejecutando = true;
-            else
+            //Creación de un loop para volver a pedir cantidad de puertas en caso de error
+            ejecutando = true;
+            bool ejecutando2 = true;
+            while (ejecutando2)
             {
-                V.Cant_puertas = Convert.ToInt32(cantidaddepuertas);
-                ejecutando = false;
+                //Se pide cantidad de puertas
+                Console.Write("\nIngrese la Cantidad de puertas o presione 'S' para salir: ");
+                string cantidaddepuertas = Console.ReadLine();
+                if (Cliente.presionarS(cantidaddepuertas))
+                {
+                    ejecutando = true;
+                    ejecutando2 = false;
+                }
+                else
+                    try
+                    {
+                        V.Cant_puertas = Convert.ToInt16(cantidaddepuertas);
+                        ejecutando = false;
+                        ejecutando2 = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("\nERROR - Ingrese un valor numérico");
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
             }
         }
+
 
         //Método para agregar Costo
         public void AgregoCosto_Diario(Vehiculo V, out bool ejecutando)
         {
-            //Se pide modelo
-            Console.Write("\nIngrese el Costo diario del vehiculo 'S' para salir: ");
-            string costoingresado = Console.ReadLine();
-            if (Cliente.presionarS(costoingresado))
-                ejecutando = true;
-            else
+            //Creación de un loop para volver a pedir el costo en caso de error
+            ejecutando = true;
+            bool ejecutando2 = true;
+
+            while (ejecutando2)
             {
-                V.Costo_diario = Convert.ToInt32(costoingresado);
-                ejecutando = false;
+                //Se pide costo
+                Console.Write("\nIngrese el Costo diario del vehiculo 'S' para salir: ");
+                string costoingresado = Console.ReadLine();
+                if (Cliente.presionarS(costoingresado))
+                {
+                    ejecutando = true;
+                    ejecutando2 = false;
+                }
+                else
+                    try
+                    {
+                        V.Costo_diario = Convert.ToInt32(costoingresado);
+                        ejecutando = false;
+                        ejecutando2 = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("\nERROR - Ingrese un valor numérico");
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
             }
         }
+
 
 
 
@@ -217,13 +298,13 @@ namespace Segundo_Obligatorio
                 Auto autobuscado = (Auto)buscado;
 
 
-                Console.WriteLine("Matrícula: \t\t\t{0}", autobuscado.Matricula);
-                Console.WriteLine("Modelo: \t\t\t{0}", autobuscado.Modelo);
-                Console.WriteLine("Marca: \t\t\t\t{0}", autobuscado.Marca);
-                Console.WriteLine("Año: \t\t\t\t{0}", autobuscado.Anio);
-                Console.WriteLine("Cantidad de pueras: \t\t{0}", autobuscado.Cant_puertas);
-                Console.WriteLine("Costo diario: \t\t\t{0}", autobuscado.Costo_diario);
-                Console.WriteLine("Anclaje: \t\t\t{0}", autobuscado.Anclaje);
+                Console.WriteLine("Matrícula: \t\t{0}", autobuscado.Matricula);
+                Console.WriteLine("Marca: \t\t\t{0}", autobuscado.Marca);
+                Console.WriteLine("Modelo: \t\t{0}", autobuscado.Modelo);
+                Console.WriteLine("Año: \t\t\t{0}", autobuscado.Anio);
+                Console.WriteLine("Cantidad de pueras: \t{0}", autobuscado.Cant_puertas);
+                Console.WriteLine("Costo diario: \t\t{0}", autobuscado.Costo_diario);
+                Console.WriteLine("Anclaje: \t\t{0}", autobuscado.Anclaje);
 
             }
             else
@@ -233,18 +314,57 @@ namespace Segundo_Obligatorio
 
 
 
-                Console.WriteLine("Matrícula: \t\t\t{0}", utilitariobuscado.Matricula);
-                Console.WriteLine("Modelo: \t\t\t{0}", utilitariobuscado.Modelo);
-                Console.WriteLine("Marca: \t\t\t\t{0}", utilitariobuscado.Marca);
-                Console.WriteLine("Año: \t\t\t\t{0}", utilitariobuscado.Anio);
-                Console.WriteLine("Cantidad de pueras: \t\t{0}", utilitariobuscado.Cant_puertas);
-                Console.WriteLine("Costo diario: \t\t\t{0}", utilitariobuscado.Costo_diario);
-                Console.WriteLine("Tipo: \t\t\t\t{0}", utilitariobuscado.Tipo);
-                Console.WriteLine("Capacidad de carga: \t\t{0}", utilitariobuscado.Capacidad);
+                Console.WriteLine("Matrícula: \t\t{0}", utilitariobuscado.Matricula);
+                Console.WriteLine("Marca: \t\t\t{0}", utilitariobuscado.Marca);
+                Console.WriteLine("Modelo: \t\t{0}", utilitariobuscado.Modelo);
+                Console.WriteLine("Año: \t\t\t{0}", utilitariobuscado.Anio);
+                Console.WriteLine("Cantidad de pueras: \t{0}", utilitariobuscado.Cant_puertas);
+                Console.WriteLine("Costo diario: \t\t{0}", utilitariobuscado.Costo_diario);
+                Console.WriteLine("Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
+                Console.WriteLine("Capacidad de carga: \t{0}", utilitariobuscado.Capacidad);
 
 
             }
         }
+
+
+        //Método para eliminar los Vehículo
+        public void EliminarVehiculo(Vehiculo encontrado, ArrayList ListaVehiculos, ArrayList ListaAlquileres)
+        {
+            bool tienealquiler = false;
+            foreach (Alquiler A in ListaAlquileres)
+            {
+                if (A.Vehiculo == encontrado)
+                {
+                    tienealquiler = true;
+                }
+            }
+
+            if (tienealquiler)
+            {
+                Console.Write("\nNo se puede eliminar el Vehículo ya que el mismo posee alquileres a su nombre.");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.Write("\n¿Confirma que desea eliminar el vehiculo? <S/N>: ");
+                if (presionarS(Console.ReadLine()))
+                {
+                    ListaVehiculos.Remove(encontrado);
+                    Console.Write("\nSe ha eliminado el Vehículo.");
+                }
+                else
+                    Console.Write("\nNo se ha eliminado el Vehículo");
+            }
+        }
+
+
+
+
+
+
+
+
     }
 }
 

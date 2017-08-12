@@ -76,46 +76,116 @@ namespace Segundo_Obligatorio
 
 
         //Método Mantenimineto de Autos
-        public static void MantenimientoAutos(ArrayList ListaVehiculos)
-        {
-            // Creación de un loop para que se siga ejecutando el menú mantenimiento de autos
-            bool ejecutando = true;
-            while (ejecutando)
-            {
-                Console.Clear();
-                Console.WriteLine("*********************************************");
-                Console.WriteLine("            Mantenimiento de Autos");
-                Console.WriteLine("\n*********************************************");
+         public static void MantenimientoAutos(ArrayList ListaVehiculos)
+         {
+             // Creación de un loop para que se siga ejecutando el menú mantenimiento de autos
+             bool ejecutando = true;
+             while (ejecutando)
+             {
+                 Console.Clear();
+                 Console.WriteLine("*********************************************");
+                 Console.WriteLine("            Mantenimiento de Autos");
+                 Console.WriteLine("\n*********************************************");
 
-                //Se pide el número de matricula y se da la opción de volver al menú principal
-                Console.Write("Ingrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
-                string matriculaingresada = Console.ReadLine();     
-                               
-                //Si se presionó "S" se sale del menú de mantenimiento de clientes
-                if (Cliente.presionarS(matriculaingresada))
-                    break;
-                else
-                {
-                    //Si no se presionó "S" se busca al auto para comprobar si ya fue ingresado
-                    if (BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
-                    {
-                        //Si no se encuentra en el listado de vehiculos, se pregunta si se quiere añadir
-                        Console.Write("\nEl vehiculo no se encuentra en la base de datos. ¿Desea agregarlo? <S/N>: ");
-                        if (Cliente.presionarS(Console.ReadLine()))
-                        {
-                            //Si se quiere añadir al auto, se ejecuta el método para añadirlo
-                            AgregoAuto(matriculaingresada, ListaVehiculos);
+                 //Creación de un loop para volver a ingresar matrícula si no es válida
+                 bool ejecutando2 = true;
+                 string matriculaingresada = "";
 
-                        }
-                    }
-                    else
-                    {
-                        Console.Write("\nEl auto ya se encuentra en la base de datos.");
-                        Console.ReadLine();
-                    }
-                }
-            }
-        }
+                 while (ejecutando2)
+                 {
+                     //Se pide el número de matrícula y se da la opción de volver al menú principal
+                     Console.Write("\nIngrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
+                     string aux = Console.ReadLine();
+
+                     if (Cliente.presionarS(aux))
+                     {
+                         ejecutando2 = false;
+                         ejecutando = false;
+
+                     }
+
+                     else
+                     {
+
+                         try
+                         {
+                             Vehiculo test = new Vehiculo(aux);
+                             matriculaingresada = aux;
+                             ejecutando2 = false;
+
+                         }
+                         catch (Exception error)
+                         {
+                             Console.Write(error.Message);
+                         }
+
+
+                         //Si no se presionó "S" se busca al auto para comprobar si ya fue ingresado
+                         if (BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
+                         {
+                             //Si no se encuentra en el listado de vehiculos, se pregunta si se quiere añadir
+                             Console.Write("\nEl vehiculo no se encuentra en la base de datos. ¿Desea agregarlo? <S/N>: ");
+                             if (Cliente.presionarS(Console.ReadLine()))
+                             {
+                                 //Si se quiere añadir al auto, se ejecuta el método para añadirlo
+                                 AgregoAuto(matriculaingresada, ListaVehiculos);
+
+                             }
+                         }
+                         else
+                         {
+                             //Si se encontró el auto se muestran los datos y se pregunta qué se quiere hacer, si eliminarlo o modificarlo
+                             Vehiculo encontrado = (Auto)encontrado;
+                             encontrado = BuscoVehiculo(matriculaingresada, ListaVehiculos);
+                             Console.WriteLine("\nEl Auto ya se encuentra en la base de datos.");
+                             Console.WriteLine("Los datos del Auto ingresado son los siguientes: ");
+                             encontrado.MostrarVehiculo(encontrado);
+                             Console.WriteLine("\n1 - Modificar datos del Auto");
+                             Console.WriteLine("2 - Eliminar Auto");
+                             Console.WriteLine("3 - Salir");
+
+                             //Creación de un loop para que se siga preguntando qué se desea hacer si se ingresa una opción no válida
+                             bool ejecutando3 = true;
+                             while (ejecutando3)
+                             {
+                                 int opcion = 0;
+                                 Console.Write("\nIngrese la opción deseada: ");
+                                 //Se pide el número de opción
+                                 bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
+
+                                 //Verificación de que la opción ingresada es válida
+                                 if (!esnumero || opcion <= 0 || opcion > 3)
+                                 {
+                                     Console.Write("ERROR - La opción ingresada no es válida.");
+                                     Console.ReadLine();
+                                 }
+
+                                 // Ejecución de métodos dependiendo de la opción ingresada
+                                 switch (opcion)
+                                 {
+                                     //Si se seleccionó la opción para modificar los datos del cliente se llama al método para hacerlo
+                                     case 1:
+                                         encontrado.ModificarAuto(encontrado, ListaVehiculos);
+                                         ejecutando2 = false;
+                                         break;
+                                     //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo
+                                     case 2:
+                                         encontrado.EliminarVehiculo(encontrado, ListaVehiculos, ListaAlquileres);
+                                         ejecutando2 = false;
+                                         break;
+                                     case 3:
+                                         ejecutando2 = false;
+                                         break;
+                                     default:
+                                         break;
+                                 }
+                             }
+                         }
+                     }
+                 }
+             }
+         }
+
 
 
         //Método Agregar propiedades Auto
@@ -165,7 +235,7 @@ namespace Segundo_Obligatorio
                     Console.WriteLine("*********************************************");
                     Console.WriteLine("            Mantenimiento de Autos");
                     Console.WriteLine("\n*********************************************");
-                    Console.WriteLine("\nLos datos ingresados para el auto son los siguientes: ");
+                    Console.WriteLine("Los datos ingresados para el auto son los siguientes: ");
                     //Se muestran propiedades del vehículo
                     V.MostrarVehiculo(V);
                     Console.WriteLine("*********************************************");
@@ -195,6 +265,16 @@ namespace Segundo_Obligatorio
                 }
             }
         }
+
+
+
+
+
+
+
+
+
+
 
 
     }
