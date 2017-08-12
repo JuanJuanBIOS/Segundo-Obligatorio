@@ -207,85 +207,7 @@ namespace Segundo_Obligatorio
             return null;
         }
 
-/*
-        //Método para agregar Vehiculo
-        public static void AgregoVehiculo(string matriculaingresada, ArrayList ListaVehiculo)
-        {
-            bool ejecutando = true;
-            while (ejecutando)
-            {
-                //Se intenta crear un nuevo vehículo con la matricula 
-                try
-                {
-                    //Se crea el vehículo con la matricula ingresada
-                    Vehiculo V = new Vehiculo(matriculaingresada);
 
-                    //Se ejecuta el método para agregar la marca del vehiculo
-                    V.AgregoMarca(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-                    //Se ejecuta el método para agregar el modelo del vehiculo
-                    V.AgregoModelo(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-                    //Se ejecuta el método para agregar el anio del vehiculo
-                    V.AgregoAnio(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-                    //Se ejecuta el método para agregar la cantidad de puertas
-                    V.AgregoCant_puertas(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-                    //Se ejecuta el método para agregar la costo
-                    V.AgregoCosto_Diario(V, out ejecutando);
-                    if (ejecutando)
-                        break;
-
-
-                    Console.Clear();
-                    Console.WriteLine("*********************************************");
-                    Console.WriteLine("            Mantenimiento de vehículos");
-                    Console.WriteLine("\n********************************************* \n");
-
-                    Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
-                    Console.WriteLine("\nMatrícula: \t\t\t{0}", V.Matricula);
-                    Console.WriteLine("\nModelo: \t\t\t{0}", V.Modelo);
-                    Console.WriteLine("\nMarca: \t\t\t\t{0}", V.Marca);
-                    Console.WriteLine("\nAño: \t\t\t\t{0}", V.Anio);
-                    Console.WriteLine("\nCantidad de pueras: \t\t{0}", V.cant_puertas);
-                    Console.WriteLine("\nCosto diario: \t\t\t{0}", V.costo_diario);
-
-
-                    Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
-                    string opcion = Console.ReadLine();
-                    if (opcion == "S" || opcion == "s")
-                    {
-                        ListaVehiculo.Add(V);
-                        Console.Write("\nVehículo ingresado con éxito.");
-                        Console.ReadLine();
-                        //ejecutando = false;
-                    }
-                    else
-                    {
-                        Console.Write("\nNo se agregó el vehículo a la base de datos.");
-                        Console.ReadLine();
-                        //ejecutando = false;
-                    }
-                }
-                catch (Exception error)
-                {
-                    Console.Write(error.Message);
-                    Console.ReadLine();
-                    ejecutando = false;
-                }
-            }
-        }
-
-*/
         //Metodo mostrar Vehiculo
         public void MostrarVehiculo(Vehiculo buscado)
         {
@@ -294,8 +216,7 @@ namespace Segundo_Obligatorio
                 //Down-cast de vehículo a auto
                 Auto autobuscado = (Auto)buscado;
 
-                //Console.WriteLine("\n*********************************************");
-                //Console.WriteLine("\nLos datos ingresados para el auto son los siguientes: ");
+
                 Console.WriteLine("Matrícula: \t\t\t{0}", autobuscado.Matricula);
                 Console.WriteLine("Modelo: \t\t\t{0}", autobuscado.Modelo);
                 Console.WriteLine("Marca: \t\t\t\t{0}", autobuscado.Marca);
@@ -303,7 +224,7 @@ namespace Segundo_Obligatorio
                 Console.WriteLine("Cantidad de pueras: \t\t{0}", autobuscado.Cant_puertas);
                 Console.WriteLine("Costo diario: \t\t\t{0}", autobuscado.Costo_diario);
                 Console.WriteLine("Anclaje: \t\t\t{0}", autobuscado.Anclaje);
-                //Console.WriteLine("*********************************************");
+
             }
             else
             {
@@ -311,29 +232,16 @@ namespace Segundo_Obligatorio
                 Utilitario utilitariobuscado = (Utilitario)buscado;
 
 
-                Console.WriteLine("\n*********************************************");
-                Console.WriteLine("Los datos ingresados para el utilitario son los siguientes: ");
-                Console.WriteLine("\nMatrícula: \t\t\t{0}", utilitariobuscado.Matricula);
-                Console.WriteLine("\nModelo: \t\t\t{0}", utilitariobuscado.Modelo);
-                Console.WriteLine("\nMarca: \t\t\t\t{0}", utilitariobuscado.Marca);
-                Console.WriteLine("\nAño: \t\t\t\t{0}", utilitariobuscado.Anio);
-                Console.WriteLine("\nCantidad de pueras: \t\t{0}", utilitariobuscado.Cant_puertas);
-                Console.WriteLine("\nCosto diario: \t\t\t{0}", utilitariobuscado.Costo_diario);
-                Console.WriteLine("\nTipo: \t\t\t\t{0}", utilitariobuscado.Tipo);
-                Console.WriteLine("\nCapacidad de carga: \t\t{0}", utilitariobuscado.Capacidad);
-                Console.WriteLine("*********************************************");
 
-                //Console.WriteLine("\n*********************************************");
-                //Console.WriteLine("\nLos datos ingresados para el utilitario son los siguientes: ");
                 Console.WriteLine("Matrícula: \t\t\t{0}", utilitariobuscado.Matricula);
                 Console.WriteLine("Modelo: \t\t\t{0}", utilitariobuscado.Modelo);
                 Console.WriteLine("Marca: \t\t\t\t{0}", utilitariobuscado.Marca);
                 Console.WriteLine("Año: \t\t\t\t{0}", utilitariobuscado.Anio);
                 Console.WriteLine("Cantidad de pueras: \t\t{0}", utilitariobuscado.Cant_puertas);
                 Console.WriteLine("Costo diario: \t\t\t{0}", utilitariobuscado.Costo_diario);
-                Console.WriteLine("Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
-                Console.WriteLine("Capacidad de carga: \t\t\t{0}", utilitariobuscado.Capacidad);
-                //Console.WriteLine("*********************************************");
+                Console.WriteLine("Tipo: \t\t\t\t{0}", utilitariobuscado.Tipo);
+                Console.WriteLine("Capacidad de carga: \t\t{0}", utilitariobuscado.Capacidad);
+
 
             }
         }

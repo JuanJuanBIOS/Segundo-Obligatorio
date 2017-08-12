@@ -189,9 +189,11 @@ namespace Segundo_Obligatorio
                      Console.WriteLine("*********************************************");
                      Console.WriteLine("         Mantenimiento de Utilitarios");
 
-
+                     Console.WriteLine("\n*********************************************");
+                     Console.WriteLine("\nLos datos ingresados para el utilitario son los siguientes: ");
+                     //Se muestran propiedades del vehículo
                      V.MostrarVehiculo(V);
-
+                     Console.WriteLine("*********************************************");
 
                      Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                      string opcion = Console.ReadLine();
