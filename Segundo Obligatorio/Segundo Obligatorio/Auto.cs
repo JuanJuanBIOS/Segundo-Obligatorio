@@ -15,7 +15,7 @@ namespace Segundo_Obligatorio
         public string Anclaje
         {
             get { return anclaje; }
-            set { anclaje = value; }
+            set {anclaje = value; }
         }
 
         //Constructor completo
@@ -40,8 +40,8 @@ namespace Segundo_Obligatorio
 
                 //Se pide el número de matricula y se da la opción de volver al menú principal
                 Console.Write("Ingrese el número matrícula(3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
-                string matriculaingresada = Console.ReadLine();
-
+                string matriculaingresada = Console.ReadLine();     
+                               
                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
                 if (Cliente.presionarS(matriculaingresada))
                     break;
@@ -57,6 +57,7 @@ namespace Segundo_Obligatorio
                             //Si se quiere añadir al auto, se ejecuta el método para añadirlo
                             //===============================>>>>>> Este metodo tendria que cambiarlo por agrego auto o extenderlo del vehículo. Tengo que averiguar como se hace.
                             AgregoVehiculo(matriculaingresada, ListaVehiculos);
+
                         }
                     }
                     else
@@ -69,6 +70,88 @@ namespace Segundo_Obligatorio
         }
 
 
+        //Método Agregar propiedades Auto
+        public static void AgregoAuto(string matriculaingresada, ArrayList ListaVehiculo)
+        {
+            bool ejecutando = true;
+            while (ejecutando)
+            {
+                //Se intenta crear un nuevo vehículo con la matricula 
+                try
+                {
+                    //Se crea el vehículo con la matricula ingresada
+                    Vehiculo V = new Vehiculo(matriculaingresada);
 
+                    //Se ejecuta el método para agregar la marca del vehiculo
+                    V.AgregoMarca(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+                    //Se ejecuta el método para agregar el modelo del vehiculo
+                    V.AgregoModelo(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+                    //Se ejecuta el método para agregar el anio del vehiculo
+                    V.AgregoAnio(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+                    //Se ejecuta el método para agregar la cantidad de puertas
+                    V.AgregoCant_puertas(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+                    //Se ejecuta el método para agregar la costo
+                    V.AgregoCosto_Diario(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+                    //Se ejecuta el método para agregar la costo
+                    V.AgregoAnclaje(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
+
+                    Console.Clear();
+                    Console.WriteLine("*********************************************");
+                    Console.WriteLine("            Mantenimiento de Autos");
+                    Console.WriteLine("\n********************************************* \n");
+
+                    Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
+                    Console.WriteLine("\nMatrícula: \t\t\t{0}", V.Matricula);
+                    Console.WriteLine("\nModelo: \t\t\t{0}", V.Modelo);
+                    Console.WriteLine("\nMarca: \t\t\t\t{0}", V.Marca);
+                    Console.WriteLine("\nAño: \t\t\t\t{0}", V.Anio);
+                    Console.WriteLine("\nCantidad de pueras: \t\t{0}", V.cant_puertas);
+                    Console.WriteLine("\nCosto diario: \t\t\t{0}", V.costo_diario);
+
+
+                    Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
+                    string opcion = Console.ReadLine();
+                    if (opcion == "S" || opcion == "s")
+                    {
+                        ListaVehiculo.Add(V);
+                        Console.Write("\nVehículo ingresado con éxito.");
+                        Console.ReadLine();
+                        //ejecutando = false;
+                    }
+                    else
+                    {
+                        Console.Write("\nNo se agregó el vehículo a la base de datos.");
+                        Console.ReadLine();
+                        //ejecutando = false;
+                    }
+                }
+                catch (Exception error)
+                {
+                    Console.Write(error.Message);
+                    Console.ReadLine();
+                    ejecutando = false;
+                }
+            }
         }
+
+
     }
+}

@@ -17,6 +17,7 @@ namespace Segundo_Obligatorio
         private int cant_puertas;
         private double costo_diario;
 
+
         //Definición de propiedades
         public string Matricula
         {
@@ -59,7 +60,16 @@ namespace Segundo_Obligatorio
         public int Anio
         {
             get { return anio; }
-            set { anio = value; }
+            set { 
+                try
+                {
+                    anio = Convert.ToInt16(value);
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error.Message);
+                }
+            }
         }
 
         public int Cant_puertas
@@ -73,6 +83,9 @@ namespace Segundo_Obligatorio
             get { return costo_diario; }
             set { costo_diario = value; }
         }
+
+
+
 
         //Constructor completo
         public Vehiculo(string pmatricula, string pmarca, string pmodelo, int panio, int pcant_puertas, double pcosto_diario)
@@ -129,11 +142,20 @@ namespace Segundo_Obligatorio
                     if (ejecutando)
                         break;
 
+                    //Se ejecuta el método para agregar el anio del vehiculo
+                    V.AgregoAnio(V, out ejecutando);
+                    if (ejecutando)
+                        break;
+
                     //Se ejecuta el método para agregar la cantidad de puertas
                     V.AgregoCant_puertas(V, out ejecutando);
                     if (ejecutando)
                         break;
 
+                    //Se ejecuta el método para agregar la costo
+                    V.AgregoCosto_Diario(V, out ejecutando);
+                    if (ejecutando)
+                        break;
 
 
                     Console.Clear();
@@ -142,12 +164,13 @@ namespace Segundo_Obligatorio
                     Console.WriteLine("\n********************************************* \n");
 
                     Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
-                    Console.WriteLine("\nMatrícula: \t\t{0}", V.Matricula);
-                    Console.WriteLine("Modelo: \t\t{0}", V.Modelo);
-                    //Console.WriteLine("Nº de tarjeta: \t\t{0}", V.tarjeta);
-                  //  Console.WriteLine("Teléfono: \t\t{0}", C.telefono);
-                    //Console.WriteLine("Dirección: \t\t{0}", C.direccion);
-                    //Console.WriteLine("Fecha de nacimiento: \t{0}", C.fecha_nac.ToShortDateString());
+                    Console.WriteLine("\nMatrícula: \t\t\t{0}", V.Matricula);
+                    Console.WriteLine("\nModelo: \t\t\t{0}", V.Modelo);
+                    Console.WriteLine("\nMarca: \t\t\t\t{0}", V.Marca);
+                    Console.WriteLine("\nAño: \t\t\t\t{0}", V.Anio);
+                    Console.WriteLine("\nCantidad de pueras: \t\t{0}", V.cant_puertas);
+                    Console.WriteLine("\nCosto diario: \t\t\t{0}", V.costo_diario);
+
 
                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                     string opcion = Console.ReadLine();
@@ -224,32 +247,45 @@ namespace Segundo_Obligatorio
                     ejecutando = true;
                 }
                 else
-                    try
-                    {
-                        V.Anio = Convert.ToInt16(anioingresado);
-                        ejecutando2 = false;
-                        ejecutando = false;
-                    }
-                    catch (Exception error)
-                    {
-                        Console.WriteLine(error.Message);
-                    }
+                {
+                    V.Anio = Convert.ToInt16(anioingresado);
+                    ejecutando2 = false;
+                    ejecutando = false;
+
+                }
             }
         }
 
-        //Método para agregar modelo
+        //Método para agregar Cantidad de puertas
         public void AgregoCant_puertas(Vehiculo V, out bool ejecutando)
         {
-            //Se pide modelo
-            Console.Write("\nIngrese el modelo o presione 'S' para salir: ");
-            string modeloingresado = Console.ReadLine();
-            if (Cliente.presionarS(modeloingresado))
+            //Se pide cantidad de puerta
+            Console.Write("\nIngrese la cantidad de puertas o presione 'S' para salir: ");
+            string cantidaddepuertas = Console.ReadLine();
+            if (Cliente.presionarS(cantidaddepuertas))
                 ejecutando = true;
             else
             {
-                V.Modelo = modeloingresado;
+                V.Cant_puertas = Convert.ToInt32(cantidaddepuertas);
                 ejecutando = false;
             }
         }
+
+        //Método para agregar Costo
+        public void AgregoCosto_Diario(Vehiculo V, out bool ejecutando)
+        {
+            //Se pide modelo
+            Console.Write("\nIngrese el costo diario del vehiculo 'S' para salir: ");
+            string costoingresado = Console.ReadLine();
+            if (Cliente.presionarS(costoingresado))
+                ejecutando = true;
+            else
+            {
+                V.Costo_diario = Convert.ToInt32(costoingresado);
+                ejecutando = false;
+            }
+        }
+
+
     }
 }
