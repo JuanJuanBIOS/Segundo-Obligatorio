@@ -18,6 +18,22 @@ namespace Segundo_Obligatorio
             set {anclaje = value; }
         }
 
+        //Método para agredar anclaje
+        public void AgregoAnclaje(Auto V, out bool ejecutando)
+        {
+            //Se pide marca
+            Console.Write("\nIngrese la marca o presione 'S' para salir: ");
+            string anclajeingresado = Console.ReadLine();
+            if (Cliente.presionarS(anclajeingresado))
+                ejecutando = true;
+            else
+            {
+                V.Anclaje = anclajeingresado;
+                ejecutando = false;
+            }
+        }
+
+
         //Constructor completo
         public Auto(string pmatricula, string pmarca, string pmodelo, int panio, int pcant_puertas, double pcosto_diario, string panclaje)
             : base(pmatricula, pmarca, pmodelo, panio, pcant_puertas, pcosto_diario)
@@ -56,7 +72,7 @@ namespace Segundo_Obligatorio
                         {
                             //Si se quiere añadir al auto, se ejecuta el método para añadirlo
                             //===============================>>>>>> Este metodo tendria que cambiarlo por agrego auto o extenderlo del vehículo. Tengo que averiguar como se hace.
-                            AgregoVehiculo(matriculaingresada, ListaVehiculos);
+                            AgregoAuto(matriculaingresada, ListaVehiculos);
 
                         }
                     }
@@ -118,6 +134,10 @@ namespace Segundo_Obligatorio
                     Console.WriteLine("            Mantenimiento de Autos");
                     Console.WriteLine("\n********************************************* \n");
 
+                    V.MostrarVehiculo(V);
+
+
+                    /*
                     Console.WriteLine("Los datos ingresados para el vehiculo son los siguientes: ");
                     Console.WriteLine("\nMatrícula: \t\t\t{0}", V.Matricula);
                     Console.WriteLine("\nModelo: \t\t\t{0}", V.Modelo);
@@ -126,6 +146,7 @@ namespace Segundo_Obligatorio
                     Console.WriteLine("\nCantidad de pueras: \t\t{0}", V.cant_puertas);
                     Console.WriteLine("\nCosto diario: \t\t\t{0}", V.costo_diario);
 
+                     */
 
                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
                     string opcion = Console.ReadLine();
