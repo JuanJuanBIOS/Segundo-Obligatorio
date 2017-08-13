@@ -95,7 +95,9 @@ namespace Segundo_Obligatorio
                  {
                      //Se pide el número de matrícula y se da la opción de volver al menú principal
                      Console.Write("\nIngrese el número matrícula (3 letras mayúsculas y 4 dígitos)\n o presione 'S' para regresar: ");
-                     string aux = Console.ReadLine();
+                     //Ingreso de datos sin mayusculas
+                     string ingreso = Console.ReadLine();
+                     string aux = ingreso.ToUpper();
 
                      if (Cliente.presionarS(aux))
                      {
@@ -119,6 +121,13 @@ namespace Segundo_Obligatorio
                              Console.Write(error.Message);
                          }
 
+                         //Si se ingerso matricula de utilitario se deplega mensaje
+                         if (BuscoVehiculo(matriculaingresada, ListaVehiculos) is Utilitario)
+                         {
+                             Console.WriteLine("La matrícula ingresada corresponde a un utilitario, en caso de querer modificarlo, salga al menú principal y luego ingerese en Mantenimiento de Utilitarios");
+                             ejecutando2 = true;
+
+                         }
 
                          //Si no se presionó "S" se busca al auto para comprobar si ya fue ingresado
                          if (BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
@@ -132,7 +141,7 @@ namespace Segundo_Obligatorio
 
                              }
                          }
-                         else
+                         else if (BuscoVehiculo(matriculaingresada, ListaVehiculos) is Auto)
                          {
                              //Si se encontró el auto se muestran los datos y se pregunta qué se quiere hacer, si eliminarlo o modificarlo
                              Auto encontrado = (Auto)Vehiculo.BuscoVehiculo(matriculaingresada, ListaVehiculos);
@@ -163,18 +172,18 @@ namespace Segundo_Obligatorio
                                  // Ejecución de métodos dependiendo de la opción ingresada
                                  switch (opcion)
                                  {
-                                     //Si se seleccionó la opción para modificar los datos del cliente se llama al método para hacerlo
+                                     //Si se seleccionó la opción para modificar los datos del auto se llama al método para hacerlo
                                      case 1:
-                                         //encontrado.ModificarAuto(encontrado, ListaVehiculos, ListaAlquileres);
+                                         encontrado.ModificarVehiculo(encontrado, ListaVehiculos);
                                          ejecutando3 = false;
                                          break;
-                                     //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo
+                                     //Si se seleccionó la opción para eliminar el cliente se auto al método para hacerlo
                                      case 2:
                                          encontrado.EliminarVehiculo(encontrado, ListaVehiculos, ListaAlquileres);
                                          ejecutando3 = false;
                                          break;
-                                     case 3:
-                                         ejecutando3 = false;
+                                     case 3:ejecutando3 = false;
+                                         
                                          break;
                                      default:
                                          break;
@@ -265,17 +274,5 @@ namespace Segundo_Obligatorio
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

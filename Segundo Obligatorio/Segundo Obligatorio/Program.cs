@@ -58,7 +58,7 @@ namespace Segundo_Obligatorio
                         break;
                     case 3:
                         //Mantenimiento de Utilitarios;
-                        Utilitario.MantenimientoUtilitarios(ListaVehiculos);
+                        Utilitario.MantenimientoUtilitarios(ListaVehiculos, ListaAlquileres);
                         break;
                     case 4:
                         Alquiler.RealizarAlquiler(ListaClientes, ListaVehiculos, ListaAlquileres);

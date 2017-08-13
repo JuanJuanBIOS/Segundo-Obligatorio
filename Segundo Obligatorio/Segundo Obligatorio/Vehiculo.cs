@@ -389,7 +389,6 @@ namespace Segundo_Obligatorio
         }
 
 
-
         //Método para modificar los vehículo
         public void ModificarVehiculo(Vehiculo encontrado, ArrayList ListaVehiculos)
         {
@@ -407,13 +406,13 @@ namespace Segundo_Obligatorio
                     Console.WriteLine("            Modificar Auto");
                     Console.WriteLine("\n********************************************* \n");
 
-                    Console.WriteLine("1 - Matrícula: \t\t{0}", autobuscado.Matricula);
+                    Console.WriteLine("1 - Matrícula: \t\t\t{0}", autobuscado.Matricula);
                     Console.WriteLine("2 - Marca: \t\t\t{0}", autobuscado.Marca);
-                    Console.WriteLine("3 - Modelo: \t\t{0}", autobuscado.Modelo);
+                    Console.WriteLine("3 - Modelo: \t\t\t{0}", autobuscado.Modelo);
                     Console.WriteLine("4 - Año: \t\t\t{0}", autobuscado.Anio);
                     Console.WriteLine("5 - Cantidad de pueras: \t{0}", autobuscado.Cant_puertas);
                     Console.WriteLine("6 - Costo diario: \t\t{0}", autobuscado.Costo_diario);
-                    Console.WriteLine("7 - Anclaje: \t\t{0}", autobuscado.Anclaje);
+                    Console.WriteLine("7 - Anclaje: \t\t\t{0}", autobuscado.Anclaje);
                     Console.WriteLine("8 - Salir");
                     Console.Write("\nDigite la opción deseada: ");
 
@@ -432,7 +431,7 @@ namespace Segundo_Obligatorio
                             AgregoMatricula(encontrado, ListaVehiculos, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nLa Matrícula se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nLa Matrícula se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -441,7 +440,7 @@ namespace Segundo_Obligatorio
                             AgregoMarca(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nLa Marca se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nLa Marca se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -450,7 +449,7 @@ namespace Segundo_Obligatorio
                             AgregoModelo(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl Modelo se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nEl Modelo se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -459,7 +458,7 @@ namespace Segundo_Obligatorio
                             AgregoAnio(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl Año se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nEl Año se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -468,7 +467,7 @@ namespace Segundo_Obligatorio
                             AgregoCant_puertas(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nLa Cantidad de puertas se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nLa Cantidad de puertas se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -477,7 +476,7 @@ namespace Segundo_Obligatorio
                             AgregoCosto_Diario(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl Costo diario se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nEl Costo diario se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -487,7 +486,7 @@ namespace Segundo_Obligatorio
                             autobuscado.AgregoAnclaje(autobuscado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl tipo de anclaje se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                Console.Write("\nEl tipo de anclaje se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes:\n");
                                 encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
@@ -501,44 +500,129 @@ namespace Segundo_Obligatorio
                             break;
                     }
                 }
-
-
-
             }
-        }
-    }
-}
 
-/*
             else
             {
                 //Down-cast de vehículo a utilitario
-                Utilitario utilitariobuscado = (Utilitario)buscado;
+                Utilitario utilitariobuscado = (Utilitario)encontrado;
+
+                bool ejecutando = true;
+                while (ejecutando)
+                {
+                    //Se muestran los datos del cliente y se pregunta qué dato se desea modificar
+                    Console.Clear();
+                    Console.WriteLine("*********************************************");
+                    Console.WriteLine("            Modificar utilitario");
+                    Console.WriteLine("\n********************************************* \n");
 
 
+                    Console.WriteLine("1 - Matrícula: \t\t\t{0}", utilitariobuscado.Matricula);
+                    Console.WriteLine("2 - Marca: \t\t\t{0}", utilitariobuscado.Marca);
+                    Console.WriteLine("3 - Modelo: \t\t\t{0}", utilitariobuscado.Modelo);
+                    Console.WriteLine("4 - Año: \t\t\t{0}", utilitariobuscado.Anio);
+                    Console.WriteLine("5 - Cantidad de pueras: \t{0}", utilitariobuscado.Cant_puertas);
+                    Console.WriteLine("6 - Costo diario: \t\t{0}", utilitariobuscado.Costo_diario);
+                    Console.WriteLine("7 - Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
+                    Console.WriteLine("8 - Capacidad de carga:\t\t{0}", utilitariobuscado.Capacidad);
+                    Console.WriteLine("9 - Salir");
+                    Console.Write("\nDigite la opción deseada: ");
 
-                Console.WriteLine("Matrícula: \t\t{0}", utilitariobuscado.Matricula);
-                Console.WriteLine("Marca: \t\t\t{0}", utilitariobuscado.Marca);
-                Console.WriteLine("Modelo: \t\t{0}", utilitariobuscado.Modelo);
-                Console.WriteLine("Año: \t\t\t{0}", utilitariobuscado.Anio);
-                Console.WriteLine("Cantidad de pueras: \t{0}", utilitariobuscado.Cant_puertas);
-                Console.WriteLine("Costo diario: \t\t{0}", utilitariobuscado.Costo_diario);
-                Console.WriteLine("Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
-                Console.WriteLine("Capacidad de carga: \t{0}", utilitariobuscado.Capacidad);
+                    int opcion = 0;
+                    bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
+                    //En caso de ingresar una opción no válida se muestra el error
+                    if (!esnumero || opcion <= 0 || opcion > 9)
+                    {
+                        Console.Write("ERROR - La opción ingresada no es válida.");
+                        Console.ReadLine();
+                    }
+                    //En caso de ingresar una opción válida se ejecutan los métodos dependiendo de la opción deseada
+                    switch (opcion)
+                    {
+                        case 1:
+                            AgregoMatricula(encontrado, ListaVehiculos, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa Matrícula se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 2:
+                            AgregoMarca(encontrado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa Marca se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 3:
+                            AgregoModelo(encontrado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl Modelo se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 4:
+                            AgregoAnio(encontrado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl Año se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 5:
+                            AgregoCant_puertas(encontrado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa Cantidad de puertas se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 6:
+                            AgregoCosto_Diario(encontrado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl Costo diario se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
 
+                        case 7:
+                            utilitariobuscado.AgregoTipo(utilitariobuscado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl tipo se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
 
+                        case 8:
+                            utilitariobuscado.AgregoCapacidad(utilitariobuscado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa capacidad se ha cambiado satisfactoriamente. Los nuevos datos del utilitario son los siguientes:\n");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+
+                        case 9:
+                            ejecutando = false;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
             }
-            //Creación de un loop para volver a pedir la opción deseada en caso de ingresar una opción no válida
-           
-
-
         }
-
-
-
-
-
     }
 }
-
-*/
