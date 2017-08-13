@@ -115,26 +115,32 @@ namespace Segundo_Obligatorio
 
 
         //Método para agregar matricula
-        public void AgregoMatricula(Vehiculo V, out bool ejecutando)
+        public void AgregoMatricula(Vehiculo V, ArrayList ListaVehiculo, out bool ejecutando)
         {
-            //Se pide matricula
-            Console.Write("\nIngrese la Matricula o presione 'S' para salir: ");
-            string matriculaingresada = Console.ReadLine();
-            if (Cliente.presionarS(matriculaingresada))
-                ejecutando = true;
-            else
+            //Creación de un loop para volver a pedir el documento en caso de ingresar un número no válido
+            ejecutando = true;
+            bool ejecutando2 = true;
+            while (ejecutando2)
             {
-                try
+                //Se pide el número de matricula del vehículo
+                Console.Write("\nIngrese la matrícula del vehículo o presione 'S' para regresar: ");
+                string matriculaingresada = Console.ReadLine();
+                if (Cliente.presionarS(matriculaingresada))
                 {
-                    V.Matricula = matriculaingresada;
-
+                    ejecutando2 = false;
+                    ejecutando = true;
                 }
-                catch (Exception error)
-                {
-                    Console.Write(error.Message);
-                }
-                V.Matricula = matriculaingresada;
-                ejecutando = false;
+                else
+                    try
+                    {
+                        V.Matricula = matriculaingresada;
+                        ejecutando2 = false;
+                        ejecutando = false;
+                    }
+                    catch (Exception error)
+                    {
+                        Console.WriteLine(error.Message);
+                    }
             }
         }
 
@@ -383,7 +389,7 @@ namespace Segundo_Obligatorio
         }
 
 
-/*
+
         //Método para modificar los vehículo
         public void ModificarVehiculo(Vehiculo encontrado, ArrayList ListaVehiculos)
         {
@@ -423,60 +429,72 @@ namespace Segundo_Obligatorio
                     switch (opcion)
                     {
                         case 1:
-                            Agrego(encontrado, ListaClientes, out ejecutando);
+                            AgregoMatricula(encontrado, ListaVehiculos, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl documento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nLa Matrícula se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
                         case 2:
-                            AgregoNombre(encontrado, ListaClientes, out ejecutando);
+                            AgregoMarca(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl nombre se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nLa Marca se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
                         case 3:
-                            AgregoTarjeta(encontrado, ListaClientes, out ejecutando);
+                            AgregoModelo(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl número de tarjeta se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nEl Modelo se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
                         case 4:
-                            AgregoTelefono(encontrado, ListaClientes, out ejecutando);
+                            AgregoAnio(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nEl teléfono se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nEl Año se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
                         case 5:
-                            AgregoDireccion(encontrado, ListaClientes, out ejecutando);
+                            AgregoCant_puertas(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nLa dirección se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nLa Cantidad de puertas se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
                         case 6:
-                            AgregoFechaNac(encontrado, ListaClientes, out ejecutando);
+                            AgregoCosto_Diario(encontrado, out ejecutando);
                             if (!ejecutando)
                             {
-                                Console.Write("\nLa fecha de nacimiento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
-                                encontrado.MostrarCliente(encontrado);
+                                Console.Write("\nEl Costo diario se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
                                 Console.ReadLine();
                             }
                             break;
+
                         case 7:
+                            autobuscado.AgregoAnclaje(autobuscado, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl tipo de anclaje se ha cambiado satisfactoriamente. Los nuevos datos del auto son los siguientes: ");
+                                encontrado.MostrarVehiculo(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+
+
+                        case 8:
                             ejecutando = false;
                             break;
                         default:
@@ -487,6 +505,11 @@ namespace Segundo_Obligatorio
 
 
             }
+        }
+    }
+}
+
+/*
             else
             {
                 //Down-cast de vehículo a utilitario
@@ -513,9 +536,9 @@ namespace Segundo_Obligatorio
 
 
 
-        */
 
 
     }
 }
 
+*/
