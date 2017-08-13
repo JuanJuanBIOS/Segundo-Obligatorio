@@ -109,7 +109,7 @@ namespace Segundo_Obligatorio
         }
 
 
-        public static void RealizarAlquiler(ArrayList ListaClientes, ArrayList VehiculosAUX, ArrayList ListaAlquileres)
+        public static void RealizarAlquiler(ArrayList ListaClientes, ArrayList ListaVehiculos, ArrayList ListaAlquileres)
         {
             // Creación de un loop para que se siga ejecutando el menú realizar alquiler
             bool ejecutando = true;
@@ -128,7 +128,7 @@ namespace Segundo_Obligatorio
                     ejecutando = false;
                 }
                 //Se verifica que el listado de vehículos tenga al menos un vehículo
-                else if (VehiculosAUX.Count == 0)
+                else if (ListaVehiculos.Count == 0)
                 {
                     Console.Write("La base de datos no contiene ningún vehículo. \nPara ingresar un nuevo vehíiculo dirígase al mantenimiento de autos o utilitarios desde el menú principal.");
                     Console.ReadLine();
@@ -156,7 +156,7 @@ namespace Segundo_Obligatorio
                         else
                         {
                             //Si se encuentra al cliente en la base de datos se ejecuta el método para agregar un alquiler
-                            AgregoAlquiler(arrendador, ListaAlquileres, VehiculosAUX);
+                            AgregoAlquiler(arrendador, ListaAlquileres, ListaVehiculos);
                         }
                     }
                 }
@@ -164,7 +164,7 @@ namespace Segundo_Obligatorio
         }
 
         //Método para agregar un alquiler
-        public static void AgregoAlquiler(Cliente arrendador, ArrayList ListaAlquileres, ArrayList VehiculosAUX)
+        public static void AgregoAlquiler(Cliente arrendador, ArrayList ListaAlquileres, ArrayList ListaVehiculos)
         {
             //Creación de un loop para permitir que en cualquier parte del ingreso de los datos se pueda cancelar el mismo 
             bool ejecutando = true;
@@ -176,12 +176,12 @@ namespace Segundo_Obligatorio
                     Alquiler A = new Alquiler(arrendador);
 
                     //Se ejecuta el método para agregar un vehículo al alquiler
-                    A.AgregoVehiculo(A, VehiculosAUX, ListaAlquileres, out ejecutando);
+                    A.AgregoVehiculo(A, ListaVehiculos, ListaAlquileres, out ejecutando);
                     if (ejecutando)
                         break;
 
                     //Se ejecuta el método para agregar las fechas del alquiler
-                    A.AgregoFechas(A, VehiculosAUX, ListaAlquileres, out ejecutando);
+                    A.AgregoFechas(A, ListaVehiculos, ListaAlquileres, out ejecutando);
                     if (ejecutando)
                         break;
 
@@ -202,7 +202,7 @@ namespace Segundo_Obligatorio
 
 
 
-        public void AgregoVehiculo(Alquiler A,ArrayList VehiculosAUX,ArrayList ListaAlquileres, out bool ejecutando)
+        public void AgregoVehiculo(Alquiler A,ArrayList ListaVehiculos,ArrayList ListaAlquileres, out bool ejecutando)
         {
             //Creación de un loop para que se vuelva a pedir la matrícula en caso de que se ingrese una que no es válida
             ejecutando = false;
@@ -221,7 +221,7 @@ namespace Segundo_Obligatorio
                 else
                 {
                     //Si no se presionó S se busca el vehículo en el listado de vehículos
-                    Vehiculo vehiculoingresado = Vehiculo.BuscoVehiculo(matriculaingresada, VehiculosAUX);
+                    Vehiculo vehiculoingresado = Vehiculo.BuscoVehiculo(matriculaingresada, ListaVehiculos);
                     //Si no se encontró el vehículo se informa de la situación al usuario
                     if (vehiculoingresado == null)
                     {
@@ -238,7 +238,7 @@ namespace Segundo_Obligatorio
             }
         }
 
-        public void AgregoFechas(Alquiler A, ArrayList VehiculosAUX, ArrayList ListaAlquileres, out bool ejecutando)
+        public void AgregoFechas(Alquiler A, ArrayList ListaVehiculos, ArrayList ListaAlquileres, out bool ejecutando)
         {
             //Creación de un loop para pedir de nuevo las fechas en caso de ingresar fechas no válidas
             ejecutando = false;
@@ -291,7 +291,7 @@ namespace Segundo_Obligatorio
                         {
                             ejecutando3 = false;
                             //Si los formatos de fechas con correctos se hace la verificación de las mismas
-                            if (A.VerificoFechas(A, ListaAlquileres, VehiculosAUX, fechaini, fechafin))
+                            if (A.VerificoFechas(A, ListaAlquileres, ListaVehiculos, fechaini, fechafin))
                                 ejecutando2 = false;
                             else
                                 ejecutando2 = true;                            
@@ -302,7 +302,7 @@ namespace Segundo_Obligatorio
         }
 
         //Método para verificar las fechas ingresadas de alquiler
-        public bool VerificoFechas(Alquiler A, ArrayList ListaAlquileres, ArrayList VehiculosAUX, DateTime fechaini, DateTime fechafin)
+        public bool VerificoFechas(Alquiler A, ArrayList ListaAlquileres, ArrayList ListaVehiculos, DateTime fechaini, DateTime fechafin)
         {
             //Se comprueba que la fecha final no sea menor a la fecha inicial
             if (fechafin.Date < fechaini.Date)
@@ -462,16 +462,26 @@ namespace Segundo_Obligatorio
                     {
                         //Si se pudo convertir a formato de fecha se busca en el listado de alquileres y se listan los vehículos alquilados en esa fecha
                         Console.WriteLine("\nLos vehículos alquilados en la fecha consultada son los siguientes:\n");
+                        int contador = 0;
                         foreach (Alquiler A in ListaAlquileres)
                         {
                             if (fecha >= A.Fecha_inicio && fecha <= A.Fecha_fin)
                             {
                                 if (A.Vehiculo is Auto)
+                                {
                                     Console.Write("Auto - ");
+                                    contador += 1;
+                                }
                                 else
+                                {
                                     Console.Write("Utilitario - ");
-
+                                    contador += 1;
+                                }
                                 Console.WriteLine("{0} - {1} {2} - {3} - Alquilado entre el {4} y el {5}\n", A.Vehiculo.Matricula, A.Vehiculo.Marca, A.Vehiculo.Modelo, A.Vehiculo.Anio, A.Fecha_inicio.ToShortDateString(), A.Fecha_fin.ToShortDateString());
+                            }
+                            if (contador == 0)
+                            {
+                                Console.WriteLine("No hay vehículos alquilados en la fecha seleccionada.");
                             }
                         }
                         Console.ReadLine();
@@ -486,7 +496,7 @@ namespace Segundo_Obligatorio
         }
 
         //Método para mostrar la recaudación de un vechículo
-        public static void Recaudado(ArrayList ListaAlquileres, ArrayList VehiculosAUX)
+        public static void Recaudado(ArrayList ListaAlquileres, ArrayList ListaVehiculos)
         {
             bool ejecutando = true;
             while (ejecutando)
@@ -502,12 +512,12 @@ namespace Segundo_Obligatorio
                 //Si se presionó S se sale de esta opción
                 if (Cliente.presionarS(matriculaingresada))
                 {
-                    ejecutando = true;
+                    ejecutando = false;
                 }
                 else
                 {
                     //Se busca el vehículo en el listado de vehículos y si no se encuentra se muestra el error
-                    if (Vehiculo.BuscoVehiculo(matriculaingresada, VehiculosAUX) == null)
+                    if (Vehiculo.BuscoVehiculo(matriculaingresada, ListaVehiculos) == null)
                     {
                         Console.Write("\nLa matrícula ingresada no se encuentra en la base de datos");
                         Console.ReadLine();

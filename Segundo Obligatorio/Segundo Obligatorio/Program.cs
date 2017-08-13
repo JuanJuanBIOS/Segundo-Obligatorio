@@ -19,13 +19,12 @@ namespace Segundo_Obligatorio
             ListaClientes.Add(C1);
             ListaClientes.Add(C2);
             ListaClientes.Add(C3);
-            ArrayList VehiculosAUX = new ArrayList();
             Auto V1 = new Auto("ABC1234", "Fiat", "Uno", 2001, 4, 15, "ISOFIX");
             Auto V2 = new Auto("DEF5678", "Chevrolet", "Aveo", 2015, 4, 30, "Cinturón");
             Utilitario V3 = new Utilitario("GHI9876", "BMW", "X1", 2010, 5, 40, "PickUp",500);
-            VehiculosAUX.Add(V1);
-            VehiculosAUX.Add(V2);
-            VehiculosAUX.Add(V3);
+            ListaVehiculos.Add(V1);
+            ListaVehiculos.Add(V2);
+            ListaVehiculos.Add(V3);
             Alquiler A = new Alquiler(V1, C1, Convert.ToDateTime("15/08/2017"), Convert.ToDateTime("16/09/2017"), 155, 1);
             ListaAlquileres.Add(A);
 
@@ -62,7 +61,7 @@ namespace Segundo_Obligatorio
                         Utilitario.MantenimientoUtilitarios(ListaVehiculos);
                         break;
                     case 4:
-                        Alquiler.RealizarAlquiler(ListaClientes, VehiculosAUX, ListaAlquileres);
+                        Alquiler.RealizarAlquiler(ListaClientes, ListaVehiculos, ListaAlquileres);
                         break;
                     case 5:
                         //Listado de vehiculos alquilados;
@@ -70,7 +69,7 @@ namespace Segundo_Obligatorio
                         break;
                     case 6:
                         //Total recaudado por vehiculo;
-                        Alquiler.Recaudado(ListaAlquileres, VehiculosAUX);
+                        Alquiler.Recaudado(ListaAlquileres, ListaVehiculos);
                         break;
                     case 7:
                         ejecutando = false;
