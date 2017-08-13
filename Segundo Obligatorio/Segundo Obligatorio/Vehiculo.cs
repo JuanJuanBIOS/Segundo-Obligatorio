@@ -382,9 +382,13 @@ namespace Segundo_Obligatorio
                 {
                     ListaVehiculos.Remove(encontrado);
                     Console.Write("\nSe ha eliminado el Vehículo.");
+                    Console.ReadKey();
                 }
                 else
+                {
                     Console.Write("\nNo se ha eliminado el Vehículo");
+                    Console.ReadKey();
+                }
             }
         }
 
