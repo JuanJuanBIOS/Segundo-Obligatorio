@@ -23,10 +23,10 @@ namespace Segundo_Obligatorio
             set 
             {
                 //Se verifica que el número de documento ingresado cuente con al menos 6 caracteres
-                if (value.Length > 5)
+                if (VerificoCedula(value))
                     documento = value;
                 else
-                    throw new Exception("\nERROR - El número de documento ingresado no es válido. \nEl mismo debe constar de al menos 6 caracteres.");
+                    throw new Exception("\nERROR - El número de documento ingresado no es válido.");
             }
         }
 
@@ -122,7 +122,7 @@ namespace Segundo_Obligatorio
                 Console.WriteLine("\n********************************************* \n");
 
                 //Se pide el número de documento y se da la opción de volver al menú principal
-                Console.Write("Ingrese el número documento (cédula o pasaporte) o presione 'S' para regresar: ");
+                Console.Write("Ingrese el número de cédula sin puntos ni guiones o presione 'S' para regresar: ");
                 string documentoingresado = Console.ReadLine();
 
                 //Si se presionó "S" se sale del menú de mantenimiento de clientes
@@ -621,6 +621,49 @@ namespace Segundo_Obligatorio
             Console.WriteLine("Dirección: \t\t{0}", buscado.direccion);
             Console.WriteLine("Fecha de nacimiento: \t{0}", buscado.fecha_nac.ToShortDateString());
             //Console.WriteLine("*********************************************");
+        }
+
+        //Método para verificar la cédula
+        public static bool VerificoCedula(string documento)
+        {
+            int cedula;
+            bool esnumero = Int32.TryParse(documento, out cedula);
+            if (!esnumero || documento.Length > 8)
+            {
+                return false;
+            }
+            else
+            {
+                int digitoingresado = cedula % 10;
+                cedula = (cedula - digitoingresado) / 10;
+                
+                int dig1 = cedula % 10;
+                cedula = (cedula - dig1) / 10;
+                int dig2 = cedula % 10;
+                cedula = (cedula - dig2) / 10;
+                int dig3 = cedula % 10;
+                cedula = (cedula - dig3) / 10;
+                int dig4 = cedula % 10;
+                cedula = (cedula - dig4) / 10;
+                int dig5 = cedula % 10;
+                cedula = (cedula - dig5) / 10;
+                int dig6 = cedula % 10;
+                cedula = (cedula - dig6) / 10;
+                int dig7 = cedula % 10;
+                cedula = (cedula - dig7) / 10;
+
+                int aux = (dig7 * 2 % 10 + dig6 * 9 % 10 + dig5 * 8 % 10 + dig4 * 7 % 10 + dig3 * 6 % 10 + dig2 * 3 % 10 + dig1 * 4 % 10);
+                int digitocalculado = (10 - aux % 10) % 10;
+
+                if (digitoingresado == digitocalculado)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }
