@@ -166,15 +166,15 @@ namespace Segundo_Obligatorio
                                      //Si se seleccionó la opción para modificar los datos del cliente se llama al método para hacerlo
                                      case 1:
                                          //encontrado.ModificarAuto(encontrado, ListaVehiculos, ListaAlquileres);
-                                         ejecutando2 = false;
+                                         ejecutando3 = false;
                                          break;
                                      //Si se seleccionó la opción para eliminar el cliente se llama al método para hacerlo
                                      case 2:
                                          encontrado.EliminarVehiculo(encontrado, ListaVehiculos, ListaAlquileres);
-                                         ejecutando2 = false;
+                                         ejecutando3 = false;
                                          break;
                                      case 3:
-                                         ejecutando2 = false;
+                                         ejecutando3 = false;
                                          break;
                                      default:
                                          break;
