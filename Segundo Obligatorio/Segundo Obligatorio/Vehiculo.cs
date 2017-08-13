@@ -114,6 +114,30 @@ namespace Segundo_Obligatorio
         }
 
 
+        //Método para agregar matricula
+        public void AgregoMatricula(Vehiculo V, out bool ejecutando)
+        {
+            //Se pide matricula
+            Console.Write("\nIngrese la Matricula o presione 'S' para salir: ");
+            string matriculaingresada = Console.ReadLine();
+            if (Cliente.presionarS(matriculaingresada))
+                ejecutando = true;
+            else
+            {
+                try
+                {
+                    V.Matricula = matriculaingresada;
+
+                }
+                catch (Exception error)
+                {
+                    Console.Write(error.Message);
+                }
+                V.Matricula = matriculaingresada;
+                ejecutando = false;
+            }
+        }
+
 
         //Método para agregar marca
         public void AgregoMarca(Vehiculo V, out bool ejecutando)
@@ -359,10 +383,137 @@ namespace Segundo_Obligatorio
         }
 
 
+/*
+        //Método para modificar los vehículo
+        public void ModificarVehiculo(Vehiculo encontrado, ArrayList ListaVehiculos)
+        {
+            if (encontrado is Auto)
+            {
+                //Down-cast de vehículo a auto
+                Auto autobuscado = (Auto)encontrado;
+
+                bool ejecutando = true;
+                while (ejecutando)
+                {
+                    //Se muestran los datos del cliente y se pregunta qué dato se desea modificar
+                    Console.Clear();
+                    Console.WriteLine("*********************************************");
+                    Console.WriteLine("            Modificar Auto");
+                    Console.WriteLine("\n********************************************* \n");
+
+                    Console.WriteLine("1 - Matrícula: \t\t{0}", autobuscado.Matricula);
+                    Console.WriteLine("2 - Marca: \t\t\t{0}", autobuscado.Marca);
+                    Console.WriteLine("3 - Modelo: \t\t{0}", autobuscado.Modelo);
+                    Console.WriteLine("4 - Año: \t\t\t{0}", autobuscado.Anio);
+                    Console.WriteLine("5 - Cantidad de pueras: \t{0}", autobuscado.Cant_puertas);
+                    Console.WriteLine("6 - Costo diario: \t\t{0}", autobuscado.Costo_diario);
+                    Console.WriteLine("7 - Anclaje: \t\t{0}", autobuscado.Anclaje);
+                    Console.WriteLine("8 - Salir");
+                    Console.Write("\nDigite la opción deseada: ");
+
+                    int opcion = 0;
+                    bool esnumero = Int32.TryParse(Console.ReadLine(), out opcion);
+                    //En caso de ingresar una opción no válida se muestra el error
+                    if (!esnumero || opcion <= 0 || opcion > 8)
+                    {
+                        Console.Write("ERROR - La opción ingresada no es válida.");
+                        Console.ReadLine();
+                    }
+                    //En caso de ingresar una opción válida se ejecutan los métodos dependiendo de la opción deseada
+                    switch (opcion)
+                    {
+                        case 1:
+                            Agrego(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl documento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 2:
+                            AgregoNombre(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl nombre se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 3:
+                            AgregoTarjeta(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl número de tarjeta se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 4:
+                            AgregoTelefono(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nEl teléfono se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 5:
+                            AgregoDireccion(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa dirección se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 6:
+                            AgregoFechaNac(encontrado, ListaClientes, out ejecutando);
+                            if (!ejecutando)
+                            {
+                                Console.Write("\nLa fecha de nacimiento se ha cambiado satisfactoriamente. Los nuevos datos del cliente son los siguientes: ");
+                                encontrado.MostrarCliente(encontrado);
+                                Console.ReadLine();
+                            }
+                            break;
+                        case 7:
+                            ejecutando = false;
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
 
 
+            }
+            else
+            {
+                //Down-cast de vehículo a utilitario
+                Utilitario utilitariobuscado = (Utilitario)buscado;
 
+
+
+                Console.WriteLine("Matrícula: \t\t{0}", utilitariobuscado.Matricula);
+                Console.WriteLine("Marca: \t\t\t{0}", utilitariobuscado.Marca);
+                Console.WriteLine("Modelo: \t\t{0}", utilitariobuscado.Modelo);
+                Console.WriteLine("Año: \t\t\t{0}", utilitariobuscado.Anio);
+                Console.WriteLine("Cantidad de pueras: \t{0}", utilitariobuscado.Cant_puertas);
+                Console.WriteLine("Costo diario: \t\t{0}", utilitariobuscado.Costo_diario);
+                Console.WriteLine("Tipo: \t\t\t{0}", utilitariobuscado.Tipo);
+                Console.WriteLine("Capacidad de carga: \t{0}", utilitariobuscado.Capacidad);
+
+
+            }
+            //Creación de un loop para volver a pedir la opción deseada en caso de ingresar una opción no válida
+           
+
+
+        }
+
+
+
+        */
 
 
     }
