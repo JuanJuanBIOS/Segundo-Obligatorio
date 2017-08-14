@@ -308,7 +308,7 @@ namespace Segundo_Obligatorio
                      V.MostrarVehiculo(V);
                      Console.WriteLine("*********************************************");
 
-                     Console.Write("\n¿Confirma el ingreso de este cliente a la base de datos? <S/N> : ");
+                     Console.Write("\n¿Confirma el ingreso de este vehículo a la base de datos? <S/N> : ");
                      string opcion = Console.ReadLine();
                      if (opcion == "S" || opcion == "s")
                      {

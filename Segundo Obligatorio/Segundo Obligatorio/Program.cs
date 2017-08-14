@@ -13,6 +13,10 @@ namespace Segundo_Obligatorio
             ArrayList ListaClientes = new ArrayList();
             ArrayList ListaVehiculos = new ArrayList();
             ArrayList ListaAlquileres = new ArrayList();
+
+            //El siguiente bloque de código está comentado pero sirve para precargar clientes, vehículos y alquileres a los listados para poder
+            //realizar las pruebas
+            /*
             Cliente C1 = new Cliente("47879585", "JuanCa", "0123456789123456", "098492659", "Tres Cerros 1923", new DateTime(1987, 12, 16));
             Cliente C2 = new Cliente("44142650", "Vane", "0123456789123457", "091398982", "Tres Cerros 1923", new DateTime(1985, 04, 14));
             Cliente C3 = new Cliente("41348194", "JuanPe", "0123456789123458", "094586521", "Libertad y El Bosque", new DateTime(1988, 10, 14));
@@ -27,6 +31,7 @@ namespace Segundo_Obligatorio
             ListaVehiculos.Add(V3);
             Alquiler A = new Alquiler(V1, C1, Convert.ToDateTime("15/08/2017"), Convert.ToDateTime("16/09/2017"), 155, 1);
             ListaAlquileres.Add(A);
+            */
 
             // Creación de un loop para que se siga ejecutando el menú principal en caso de ingresar una opción no válida
             bool ejecutando = true;

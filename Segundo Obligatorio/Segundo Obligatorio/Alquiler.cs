@@ -503,12 +503,12 @@ namespace Segundo_Obligatorio
             {
                 Console.Clear();
                 Console.WriteLine("*********************************************");
-                Console.WriteLine("       RECAUDACIÓN POR VEHÍCULO");
+                Console.WriteLine("       TOTAL RECAUDADO POR VEHÍCULO");
                 Console.WriteLine("*********************************************");
 
                 //Se pide el ingreso de la matrícula para la cual se quiere hacer la consulta y se da la opción de presionar S para salir
                 Console.Write("\nIngrese la matrícula que desea consultar o presione 'S' para salir: ");
-                string matriculaingresada = Console.ReadLine();
+                string matriculaingresada = Console.ReadLine().ToUpper();
                 //Si se presionó S se sale de esta opción
                 if (Cliente.presionarS(matriculaingresada))
                 {
